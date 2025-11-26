@@ -35,7 +35,7 @@ public interface Collection<Data> extends ClearableContainer, InsertableContaine
   default void Clear() {
     final ForwardIterator<Data> it = FIterator();
     while (it.IsValid()) {
-      Data dat = it.DataNNext();
+      Data dat = it.GetCurrent();
       Remove(dat);
       it.Reset();
 

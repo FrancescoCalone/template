@@ -9,12 +9,14 @@ public interface RemovableAtSequence<Data>  extends Sequence<Data> { // Must ext
 
   // RemoveAt
   default void RemoveAt(Natural position){
-    long index=ExcIfOutOfBound(position);
-    AtNRemove(position);
+    if(IsInBound(position)) {
+      AtNRemove(position);
+    }
   }
 
   // AtNRemove
   Data AtNRemove(Natural position);
+
   // RemoveFirst
   default void RemoveFirst(){
     RemoveAt(Natural.ZERO);
@@ -26,12 +28,12 @@ public interface RemovableAtSequence<Data>  extends Sequence<Data> { // Must ext
 
   // RemoveLast
   default void RemoveLast(){
-    RemoveAt(Natural.Of((Size().ToLong()-1)));
+    RemoveAt (isEmpty() ? Natural.ZERO : Size().Decrement());
   }
 
   // LastNRemove
   default Data LastNRemove(){
-    return AtNRemove(Natural.Of((Size().ToLong()-1)));
+    return AtNRemove(isEmpty() ? Natural.ZERO : Size().Decrement());
   }
 
 }

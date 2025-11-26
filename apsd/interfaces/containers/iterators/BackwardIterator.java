@@ -18,15 +18,23 @@ public interface BackwardIterator<Data> extends Iterator<Data> { // Must extend 
   default void Prev(Natural n) {
     if (n == null) throw new IllegalArgumentException("Natural nullo");
     if (n.IsZero() || !IsValid()) return;
-   /*  long i=n.toLong()
-    while( i>0 && IsValid()){
-      DataNNext();
+    long i = n.ToLong();
+    while (i > 0 && IsValid()) {
+      DataNPrev();
       i--;
-     }*/
+     }
+    }
 
-    Natural originalN = new Natural(n);
-    ForEachBackward(dat -> { originalN.Decrement(); return originalN.IsZero(); });
-  }
+    default void Prev(Long n) {
+    if (n == null) throw new IllegalArgumentException("Natural nullo");
+    if (n == 0 || !IsValid()) return;
+    long i = n;
+    while (i > 0 && IsValid()) {
+      DataNPrev();
+      i--;
+     }
+    }
+
 
   // DataNPrev
   Data DataNPrev();

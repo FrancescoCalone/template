@@ -53,12 +53,7 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
 
   @Override
   default Vector<Data> SubVector(Natural start, Natural end){
-    if (start == null || end == null) return null;
-    long s = start.ToLong();
-    long e = end.ToLong();
-    long n = Size().ToLong();
-    if (s > e || e >= n) return null;
-    return (Vector<Data>) SubSequence(start, end);
+  return (DynVector<Data>) Vector.super.SubVector(start, end);
   }
   
   /* ************************************************************************ */

@@ -26,16 +26,7 @@ public interface Chain<Data> extends RemovableAtSequence<Data>,Set<Data> {
 
   // SubChain
   default Chain<Data> SubChain(Natural start, Natural end) {
-    if (start == null || end == null) throw new NullPointerException("Indici null");
-    long s = start.ToLong();
-    long e = end.ToLong();
-    if (s < 0 || e < 0 || s > e || e >= Size().ToLong()) throw new IndexOutOfBoundsException("Intervallo non valido: ["+s+","+e+"] size="+Size().ToLong());
-    for (long i = Size().ToLong() - 1; i >= 0; i--) {
-      if (i < s || i > e) {
-        RemoveAt(Natural.Of(i));
-      }
-    }
-    return this;
+    return (Chain<Data>) SubSequence(start, end);
   }
   
   

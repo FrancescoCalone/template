@@ -1,12 +1,15 @@
 package apsd.interfaces.containers.collections;
 
 
-public interface OrderedSet<Data extends Comparable<Data>> extends Set<Data> {
+public interface OrderedSet<Data extends Comparable<? super Data>> extends Set<Data> {
 
   // Min
   default Data Min(){
-  if (isEmpty()) return null;
-  return FIterator().GetCurrent();
+  return FoldForward((cur, res) -> {
+    if (res != null) return res;
+    if (cur == null) return null;
+    return cur.compareTo(res) < 0 ? cur : null;
+  }, null);
   }
 
   // RemoveMin
@@ -24,8 +27,11 @@ public interface OrderedSet<Data extends Comparable<Data>> extends Set<Data> {
 
   // Max
   default Data  Max(){
-  if (isEmpty()) return null;
-  return BIterator().GetCurrent();
+  return FoldForward((cur, res) -> {
+    if (res != null) return res;
+    if (cur == null) return null;
+    return cur.compareTo(res) > 0 ? cur : null;
+  }, null);
   }
 
   // RemoveMax

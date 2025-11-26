@@ -76,9 +76,10 @@ public interface Vector<Data> extends ReallocableContainer, MutableSequence<Data
 
   // SubVector
   default Vector<Data> SubVector(Natural start, Natural end){
-  if (start == null || end == null) return null;
-  long s = start.ToLong();
-  long e = end.ToLong();
+  long startIdx = ExcIfOutOfBound(start);
+  long endIdx = ExcIfOutOfBound(end);
+  long s = startIdx;
+  long e = endIdx;
   long n = Size().ToLong();
   if (s > e || e >= n) return null;
   return (Vector<Data>) SubSequence(start, end);

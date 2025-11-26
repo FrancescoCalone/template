@@ -29,13 +29,7 @@ public interface Set<Data> extends Collection<Data>{ // Must extend Collection
 
   // Intersection
   default void Intersection(Set<Data> other){
-    if (other == null) return;
-    TraverseForward(dat -> {
-      if (dat != null && !other.Exists(dat)) {
-        Remove(dat);
-      }
-      return false; 
-    });
+    Filter(dat->other.Exists(dat));
   }
 
   /* ************************************************************************ */
