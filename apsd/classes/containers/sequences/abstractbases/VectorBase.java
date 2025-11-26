@@ -54,7 +54,7 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
   /* Override specific member functions from Sequence                         */
   /* ************************************************************************ */
 
-  // ...
+  
 
   /* ************************************************************************ */
   /* Override specific member functions from MutableSequence                  */
