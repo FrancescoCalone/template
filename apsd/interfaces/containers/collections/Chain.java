@@ -16,12 +16,7 @@ public interface Chain<Data> extends RemovableAtSequence<Data>,Set<Data> {
 
   // RemoveOccurrences
   default void RemoveOccurrences(Data item) {
-    TraverseForward(dat -> {
-      if (dat != null && dat.equals(item)) {
-        Remove(dat);
-      }
-      return false; 
-    });
+   Filter(dat -> (item == null ? dat != null : !item.equals(dat)) ); 
   }
 
   // SubChain
@@ -36,14 +31,8 @@ public interface Chain<Data> extends RemovableAtSequence<Data>,Set<Data> {
   
   @Override
   default Natural Search(Data value) {
-    long size = Size().ToLong();
-    for (long i = 0; i < size; i++) {
-      Data dat = GetAt(Natural.Of(i));
-      if ((dat == null && value == null) || (dat != null && dat.equals(value))) {
-        return Natural.Of(i);
-      }
-    }
-    return Natural.Of(-1);
+    if (value == null) return null;
+    return RemovableAtSequence.super.Search(value);
   }
 
   

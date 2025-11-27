@@ -39,7 +39,8 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
     long p = pos.ToLong();
     long n = num.ToLong();
     if (p < 0 || p >= Size().ToLong() || n < 0) return;
-    ShiftLeft(Natural.Of(p), Natural.Of(n));
+    Vector.super.ShiftLeft(pos, num);
+    //reduce(num)
   }
 
   @Override
@@ -48,7 +49,8 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
     long p = pos.ToLong();
     long n = num.ToLong();
     if (p < 0 || p >= Size().ToLong() || n < 0) return;
-    ShiftRight(Natural.Of(p), Natural.Of(n));
+    Vector.super.ShiftRight(Natural.Of(p), Natural.Of(n));
+    //Expand(num)
   }
 
   @Override

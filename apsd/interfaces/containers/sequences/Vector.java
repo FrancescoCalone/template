@@ -38,8 +38,11 @@ public interface Vector<Data> extends ReallocableContainer, MutableSequence<Data
 
   // ShiftLastLeft
   default void ShiftLastLeft(Natural num) {
-    ShiftLeft(Natural.Of(Size().ToLong() - 1), Natural.ZERO);
+    ShiftLeft(Natural.Of(Size().ToLong() - 1), num);
   }
+  
+  
+  
 
   // ShiftRight
   default void ShiftRight(Natural pos){

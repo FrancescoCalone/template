@@ -8,26 +8,42 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
 
   // SearchPredecessor
   default Natural SearchPredecessor(Data element) {
-    Data pred=Predecessor(element);
-    if (pred==null) return Natural.ZERO.Decrement();
-    Natural index=Natural.ZERO;
-    while (index.compareTo(Size()) < 0) {
-      if (GetAt(index).equals(pred)) return index;
-      index=index.Increment();
+    if (element == null) throw new IllegalArgumentException("Value nullo");
+    long n = Size().ToLong();
+    long left = 0, right = n - 1;
+    long ans = -1; 
+    while (left <= right) {
+      long mid = (left + right)/2;
+      Data midVal = GetAt(Natural.Of(mid));
+      int cmp = midVal.compareTo(element);
+      if (cmp < 0) {
+        ans = mid; 
+        left = mid + 1;
+      } else {
+        right = mid - 1;
+      }
     }
-    return Natural.ZERO.Decrement();
+    return Natural.Of(ans);
   }
 
   // SearchSuccessor
   default Natural SearchSuccessor(Data element) {
-    Data succ=Successor(element);
-    if (succ==null) return Natural.ZERO.Decrement();
-    Natural index=Natural.ZERO;
-    while (index.compareTo(Size()) < 0) {
-      if (GetAt(index).equals(succ)) return index;
-      index=index.Increment();
+    if (element == null) throw new IllegalArgumentException("Value nullo");
+    long n = Size().ToLong();
+    long left = 0, right = n - 1;
+    long ans = -1; 
+    while (left <= right) {
+      long mid = (left + right) / 2;
+      Data midVal = GetAt(Natural.Of(mid));
+      int cmp = midVal.compareTo(element);
+      if (cmp > 0) {
+        ans = mid;
+        right = mid - 1;
+      } else {
+        left = mid + 1;
+      }
     }
-    return Natural.ZERO.Decrement();
+    return Natural.Of(ans);
   }
 
   /* ************************************************************************ */
@@ -36,21 +52,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
   @Override
   default Natural Search(Data value) {
     if (value == null) throw new IllegalArgumentException("Value nullo");
-    Natural left = Natural.Of(0);
-    Natural right = Natural.Of(Size().ToLong() - 1);
-    while (left.ToLong() <= right.ToLong()) {
-      Natural mid = Natural.Of((left.ToLong() + right.ToLong()) / 2);
-      Data midValue = GetAt(mid);
-      int cmp = midValue.compareTo(value);
-      if (cmp == 0) {
-        return mid;
-      } else if (cmp < 0) {
-        left = Natural.Of(mid.ToLong() + 1);
-      } else {
-        right = Natural.Of(mid.ToLong() - 1);
-      }
-    }
-    return Natural.Of(-1);
+    return SortedSequence.super.Search(value);
   }
 
   /* ************************************************************************ */
@@ -119,7 +121,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
   @Override
   default Data Predecessor(Data element) {
       Natural index = SearchPredecessor(element);
-      if (index.ToLong() == -1) return null;
+      if (index== null) return null;
       return GetAt(index);
   }
 
@@ -133,7 +135,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
   @Override
   default void RemovePredecessor(Data x) {
       Natural index = SearchPredecessor(x);
-      if (index.ToLong() != -1) {
+      if (index != null) {
           RemoveAt(index);
       }
   }
@@ -141,7 +143,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
   @Override
   default void RemoveSuccessor(Data x) {
       Natural index = SearchSuccessor(x);
-      if (index.ToLong() != -1) {
+      if (index != null) {
           RemoveAt(index);
       }
   }
@@ -150,7 +152,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
   @Override
   default Data PredecessorNRemove(Data x) {
       Natural index = SearchPredecessor(x);
-      if (index.ToLong() != -1) {
+      if (index != null) {
           Data pred = GetAt(index);
           RemoveAt(index);
           return pred;
@@ -161,7 +163,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
   @Override
   default Data SuccessorNRemove(Data x) {
       Natural index = SearchSuccessor(x);
-      if (index.ToLong() != -1) {
+      if (index != null) {
           Data succ = GetAt(index);
           RemoveAt(index);
           return succ;

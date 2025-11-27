@@ -37,6 +37,6 @@ public interface SortedSequence<Data extends Comparable<? super Data>> extends S
         right = Natural.Of(mid.ToLong() - 1);
       }
     }
-    return Natural.Of(-1);
+    return null;
   }
 }

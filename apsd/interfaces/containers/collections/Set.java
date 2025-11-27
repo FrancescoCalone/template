@@ -23,9 +23,9 @@ public interface Set<Data> extends Collection<Data>{ // Must extend Collection
       if (dat != null && Exists(dat)) {
         Remove(dat);
       }
-      return false; 
+      return false;
     });
-  }
+    }
 
   // Intersection
   default void Intersection(Set<Data> other){
