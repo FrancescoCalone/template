@@ -43,7 +43,10 @@ public interface Sequence<Data> extends IterableContainer<Data> {
 
   // IsInBound
   default boolean IsInBound(Natural num) {
-   return (ExcIfOutOfBound(num)==num.ToLong());
+  if (num == null) return false;
+  long idx = num.ToLong();
+  long size = Size().ToLong();
+  return idx >= 0 && idx < size;
   }
 
 

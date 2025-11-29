@@ -1,8 +1,9 @@
 package apsd.classes.containers.sequences.abstractbases;
 
+import apsd.classes.utilities.MutableNatural;
 import apsd.classes.utilities.Natural;
+import apsd.interfaces.containers.base.TraversableContainer;
 import apsd.interfaces.containers.iterators.MutableBackwardIterator;
-import apsd.interfaces.containers.sequences.Vector;
 import apsd.interfaces.containers.iterators.MutableForwardIterator;
 import apsd.interfaces.containers.sequences.MutableSequence;
 import apsd.interfaces.containers.sequences.Vector;
@@ -13,8 +14,29 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
   protected Data[] arr;
 
   // VectorBase
-  protected VectorBase(Natural size) {
+  public  VectorBase(Natural size) {
     ArrayAlloc(size);
+  }
+
+  public VectorBase() {
+    arr = null;
+  }
+
+  public VectorBase(Data[] arr) {
+    this.arr = arr;
+  }
+
+  public VectorBase(TraversableContainer<Data> con) {
+    if (con == null) {
+      arr = null;
+      return;
+    }
+    ArrayAlloc(con.Size());
+    final MutableNatural pos = MutableNatural.ZERO;
+    con.TraverseForward(data -> {
+      SetAt(data, pos.GetNIncrement());
+      return false;
+    });
   }
 
   // NewVector
@@ -34,10 +56,7 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
   
   @Override
   public void Clear() {
-    long size = Size().ToLong();
-    for (long i = 0; i < size; i++) {
-      arr[(int) i] = null;
-    }
+    Realloc(Natural.ZERO);
   }
   
   /* ************************************************************************ */
@@ -65,13 +84,20 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
 
       @Override
       public void Reset() {
-  index = (arr != null && arr.length > 0 ? arr.length - 1 : 0);
+      index = (arr != null && arr.length > 0 ? arr.length - 1 : 0);
       }
 
       @Override
       public Data GetCurrent() {
         if (!IsValid()) throw new IllegalStateException("Iterator terminated");
         return arr[index];
+      }
+
+      @Override
+      public void Prev() {
+        if (IsValid() && index > 0) {
+          index--;
+        }
       }
 
       @Override
@@ -105,6 +131,13 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
       @Override
       public void Reset() {
         index = 0;
+      }
+
+      @Override
+      public void Next() {
+        if (IsValid() && index < size - 1) {
+          index++;
+        }
       }
 
       @Override
@@ -146,14 +179,12 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
 
   @Override
   public MutableSequence<Data> SubSequence(Natural start, Natural end) {
-  long s = ExcIfOutOfBound(start);
-  long e = ExcIfOutOfBound(end);
+  long s = (start == null ? -1 : start.ToLong());
+  long e = (end == null ? -1 : end.ToLong());
   long n = Size().ToLong();
-  if (s > e || e >= n) throw new IllegalArgumentException("Invalid start or end position");
-  Vector<Data> sub = Vector.super.SubVector(start, end);
-  if (sub == null) throw new IllegalArgumentException("Invalid start or end position");
-  return (MutableSequence<Data>) sub;
+  if (s < 0 || e < 0 || s > e || e >= n) return null;
+    Vector<Data> sub = Vector.super.SubVector(start, end);
+    return (MutableSequence<Data>) sub;
   }
-
 
 }

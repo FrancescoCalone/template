@@ -7,8 +7,8 @@ import apsd.interfaces.containers.iterators.MutableForwardIterator;
 public interface MutableIterableContainer<Data> extends IterableContainer<Data> {
 
   // Iteratore forward mutabile
-  MutableForwardIterator<Data> FMIterator();
+  public MutableForwardIterator<Data> FMIterator();
 
   // Iteratore backward mutabile
-  MutableBackwardIterator<Data> BMIterator();
+  public MutableBackwardIterator<Data> BMIterator();
 }

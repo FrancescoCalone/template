@@ -1,14 +1,17 @@
 package apsd.classes.containers.sequences.abstractbases;
 
 import apsd.classes.utilities.Natural;
+import apsd.interfaces.containers.base.TraversableContainer;
 
 /** Object: Abstract (static) linear vector base implementation. */
 abstract public class LinearVectorBase<Data> extends VectorBase<Data> { // Must extend VectorBase
 
   // LinearVectorBase
-  protected LinearVectorBase(Natural size) {
-    super(size);
+  public LinearVectorBase(TraversableContainer<Data> con) {
+    super(con);
   }
+
+
 
   /* ************************************************************************ */
   /* Override specific member functions from ReallocableContainer             */
@@ -19,6 +22,7 @@ abstract public class LinearVectorBase<Data> extends VectorBase<Data> { // Must 
     long size = newsize.ToLong();
     if (size < 0) throw new IllegalArgumentException("Size negative");
     ArrayAlloc(newsize);
+    
   }
 
   /* ************************************************************************ */

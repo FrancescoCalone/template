@@ -1,20 +1,20 @@
 package apsd.classes.containers.sequences.abstractbases;
 
 import apsd.classes.utilities.Natural;
+import apsd.interfaces.containers.base.TraversableContainer;
 import apsd.interfaces.containers.sequences.DynVector;
 
 /** Object: Abstract dynamic linear vector base implementation. */
 abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> implements  DynVector<Data>{ // Must extend LinearVectorBase and implement DynVector
 
-  protected long size = 0L;
+  protected long size = 0L; // numero di elementi logici
 
   // DynLinearVectorBase
-  DynLinearVectorBase(Natural capacity) {
-    super(capacity);
-    size = capacity.ToLong();
+  public DynLinearVectorBase(TraversableContainer<Data> con) {
+    super(con);
   }
-   
-  public void arrayAlloc(Natural newcapacity) {
+
+  public void ArrayAlloc(Natural newcapacity) {
     long capacity = newcapacity.ToLong();
     if (capacity < 0) throw new IllegalArgumentException("Capacity negative");
     ArrayAlloc(newcapacity);
@@ -60,8 +60,10 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
     long n = num.ToLong();
     long newsize = size + n;
     if (newsize < 0) throw new ArithmeticException("Overflow: size cannot be negative!");
-    Realloc(Natural.Of(newsize));
     size = newsize;
+    if (Capacity().ToLong() < size) {
+      Realloc(Natural.Of(size));
+    }
   }
 
   @Override
@@ -71,10 +73,8 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
     if (n < 0) throw new IllegalArgumentException("Size negative");
     if (n > size) throw new IllegalArgumentException("Size to reduce exceeds current size");
     long newsize = size - n;
-    Realloc(Natural.Of(newsize));
     size = newsize;
+    Shrink();
   }
 
-
-
-}
+  }

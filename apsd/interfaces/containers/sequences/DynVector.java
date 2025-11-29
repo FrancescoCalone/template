@@ -11,10 +11,12 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
 
   @Override
   default void InsertAt(Data value, Natural position){
-    if (position == null || value == null) return;
-    long pos = position.ToLong();
-    if (pos < 0 || pos > Size().ToLong()) return;
-    InsertAt(value, Natural.Of(pos));
+  if (value == null || position == null) return;
+  long pos = position.ToLong();
+  long size = Size().ToLong();
+  if (pos < 0 || pos > size) return;
+  ShiftRight(Natural.Of(pos), Natural.ONE);
+  SetAt(value, Natural.Of(pos));
   }
 
   /* ************************************************************************ */
@@ -23,10 +25,14 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
 
   @Override
   default Data AtNRemove(Natural position) {
-    if (position == null) return null;
-    long pos = position.ToLong();
-    if (pos < 0 || pos >= Size().ToLong()) return null;
-    return AtNRemove(Natural.Of(pos));
+  if (position == null) return null;
+  long pos = position.ToLong();
+  long size = Size().ToLong();
+  if (pos < 0 || pos >= size) return null;
+  Data old = GetAt(Natural.Of(pos));
+  // Sposta a sinistra per colmare il buco e decrementa Size
+  ShiftLeft(Natural.Of(pos), Natural.ONE);
+  return old;
   }
 
   /* ************************************************************************ */
@@ -35,27 +41,35 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
 
   @Override
   default void ShiftLeft(Natural pos, Natural num) {
-    if (pos == null || num == null) return;
-    long p = pos.ToLong();
-    long n = num.ToLong();
-    if (p < 0 || p >= Size().ToLong() || n < 0) return;
-    Vector.super.ShiftLeft(pos, num);
-    //reduce(num)
+  if (pos == null || num == null) return;
+  long p = pos.ToLong();
+  long n = num.ToLong();
+  long size = Size().ToLong();
+  if (p < 0 || p >= size || n <= 0) return;
+  Vector.super.ShiftLeft(Natural.Of(p), Natural.Of(n));
+  // Riduce la capacità/size tramite API di ResizableContainer
+  Reduce(Natural.Of(n));
   }
 
   @Override
   default void ShiftRight(Natural pos, Natural num) {
-    if (pos == null || num == null) return;
-    long p = pos.ToLong();
-    long n = num.ToLong();
-    if (p < 0 || p >= Size().ToLong() || n < 0) return;
-    Vector.super.ShiftRight(Natural.Of(p), Natural.Of(n));
-    //Expand(num)
+  if (pos == null || num == null) return;
+  long p = pos.ToLong();
+  long n = num.ToLong();
+  long size = Size().ToLong();
+  if (p < 0 || p >= size || n <= 0) return;
+  // Aumenta capacità/size prima di spostare
+  Expand(Natural.Of(n));
+  Vector.super.ShiftRight(Natural.Of(p), Natural.Of(n));
   }
 
   @Override
   default Vector<Data> SubVector(Natural start, Natural end){
-  return (DynVector<Data>) Vector.super.SubVector(start, end);
+  long s = (start == null ? -1 : start.ToLong());
+  long e = (end == null ? -1 : end.ToLong());
+  long n = Size().ToLong();
+  if (s < 0 || e < 0 || s > e || e >= n) return null;
+  return Vector.super.SubVector(start, end);
   }
   
   /* ************************************************************************ */
