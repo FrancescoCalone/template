@@ -1,15 +1,16 @@
 package apsd.classes.containers.sequences.abstractbases;
 
 import apsd.classes.utilities.Natural;
+import apsd.interfaces.containers.base.TraversableContainer;
 import apsd.interfaces.containers.sequences.DynVector;
 
 /** Object: Abstract dynamic circular vector base implementation. */
 abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Data> implements DynVector<Data> {
 
-   protected long size = 0L;
+  protected long size = 0L;
 
-  DynCircularVectorBase(Natural capacity) {
-    super(capacity);
+  public  DynCircularVectorBase(TraversableContainer<Data> con) {
+    super(con);
   }
   /* ************************************************************************ */
   /* Override specific member functions from Container                        */
@@ -21,21 +22,50 @@ abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Dat
   }
 
   @Override
-  public void ShiftLeft(Natural num,Natural pos) {
-    long n = num.ToLong();
-    long p = pos.ToLong();
-    long sz = Size().ToLong();
-    if (n <= 0 || p < 0 || p >= sz) return;
-    start = (start + n) % arr.length;
+  public void ShiftLeft(Natural pos, Natural num){
+    long idx = ExcIfOutOfBound(pos);   
+    long len = num.ToLong();
+    long sizeLong = size;
+    if (len <= 0) return;
+    if (len > sizeLong - idx) {
+      len = sizeLong - idx;
+    }
+    for (long i = idx; i < sizeLong - len; i++) {
+      SetAt(GetAt(Natural.Of(i + len)), Natural.Of(i));
+    }
+    for (long i = sizeLong - len; i < sizeLong; i++) {
+      SetAt(null, Natural.Of(i));
+    }
+    size -= len;
   }
 
+  // ShiftRight
   @Override
-  public void ShiftRight(Natural num,Natural pos) { 
-    long n = num.ToLong();
-    long p = pos.ToLong();
-    long sz = Size().ToLong();
-    if (n <= 0 || p < 0 || p >= sz) return;
-    start = (start - n + arr.length) % arr.length;
+  public void ShiftRight(Natural pos, Natural num){
+    if (pos == null) throw new NullPointerException("Position cannot be null!");
+    long idx = pos.ToLong();
+    long len = num.ToLong();
+    long sizeLong = size;
+    if (idx < 0 || idx > sizeLong) throw new IndexOutOfBoundsException("Index out of bounds: " + idx + "; Size: " + sizeLong);
+    if (len <= 0) return;
+    while (sizeLong + len > arr.length) {
+      Grow();
+      sizeLong = size;
+    }
+    if (idx == sizeLong) {
+      for (long i = 0; i < len; i++) {
+        SetAt(null, Natural.Of(sizeLong + i));
+      }
+      size += len;
+      return;
+    }
+    for (long i = sizeLong - 1; i >= idx; i--) {
+      SetAt(GetAt(Natural.Of(i)), Natural.Of(i + len));
+    }
+    for (long i = idx; i < idx + len; i++) {
+      SetAt(null, Natural.Of(i));
+    }
+    size += len;
   }
 
 
@@ -55,11 +85,20 @@ abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Dat
 
   @Override 
   public void Realloc(Natural newsize) {
-    long nsize = newsize.ToLong();
-    if (nsize < 0) throw new IllegalArgumentException("Size negative");
-    ArrayAlloc(newsize);
-    if (size > nsize) 
-    size = nsize;
+  long nsize = newsize.ToLong();
+  if (nsize < 0) throw new IllegalArgumentException("Size negative");
+  Data[] oldArr = arr;
+  long oldStart = start;
+  long oldSize = size;
+  ArrayAlloc(newsize);
+  start = 0L;
+  long copySize = Math.min(oldSize, nsize);
+  for (long i = 0; i < copySize; i++) {
+    arr[(int)i] = oldArr[(int)((oldStart + i) % oldArr.length)];
+  }
+  size = copySize;
+    
+   
   }
 
   /* ************************************************************************ */

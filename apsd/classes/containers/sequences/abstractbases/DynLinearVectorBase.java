@@ -10,7 +10,7 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
   protected long size = 0L; // numero di elementi logici
 
   // DynLinearVectorBase
-  public DynLinearVectorBase(TraversableContainer<Data> con) {
+  public  DynLinearVectorBase(TraversableContainer<Data> con) {
     super(con);
   }
 

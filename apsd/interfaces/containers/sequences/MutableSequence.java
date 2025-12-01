@@ -10,7 +10,7 @@ public interface MutableSequence<Data> extends Sequence<Data>, MutableIterableCo
   // SetAt
   default void SetAt(Data value, Natural position){
     long index=ExcIfOutOfBound(position);
-    MutableForwardIterator<Data> it = FMIterator();
+    MutableForwardIterator<Data> it = FIterator();
     it.Next(Natural.Of(index));
     it.SetCurrent(value);
   }
@@ -18,7 +18,7 @@ public interface MutableSequence<Data> extends Sequence<Data>, MutableIterableCo
   // GetNSetAt
   default Data GetNSetAt(Data value, Natural position){
     long index=ExcIfOutOfBound(position);
-    MutableForwardIterator<Data> it = FMIterator();
+    MutableForwardIterator<Data> it = FIterator();
     it.Next(Natural.Of(index));
     Data oldValue = (Data)it.GetCurrent();
     it.SetCurrent(value);
@@ -50,13 +50,13 @@ public interface MutableSequence<Data> extends Sequence<Data>, MutableIterableCo
     long index1=ExcIfOutOfBound(pos1);
     long index2=ExcIfOutOfBound(pos2);
     if(index1==index2) return;
-    MutableForwardIterator<Data> it = FMIterator();
+    MutableForwardIterator<Data> it = FIterator();
     it.Next(Natural.Of(Math.min(index1, index2)));
     Data val1 = (Data) it.GetCurrent();
     it.Next(Natural.Of(Math.abs(index2 - index1)));
     Data val2 = (Data)it.GetCurrent();
     it.SetCurrent(val1);
-    it = FMIterator();
+    it = FIterator();
     it.Next(Natural.Of(Math.min(index1, index2)));
     it.SetCurrent(val2);
   }

@@ -1,14 +1,19 @@
 package apsd.classes.containers.sequences.abstractbases;
 
  import apsd.classes.utilities.Natural;
+ import apsd.interfaces.containers.base.TraversableContainer;
 
 /** Object: Abstract (static) circular vector base implementation. */
 abstract public class CircularVectorBase<Data> extends VectorBase<Data> {
 
   protected long start = 0L;
 
-  CircularVectorBase(Natural size) {
-    super(size);
+  public CircularVectorBase(TraversableContainer<Data> con) {
+    super(con);
+  }
+
+  public CircularVectorBase() {
+    super();
   }
 
   /* ************************************************************************ */
@@ -68,7 +73,7 @@ abstract public class CircularVectorBase<Data> extends VectorBase<Data> {
   /* ************************************************************************ */
 
   @Override
-  public void ArrayAlloc(Natural newsize) {
+  protected void ArrayAlloc(Natural newsize) {
     long capacity = newsize.ToLong();
     if (capacity < 0) throw new IllegalArgumentException("Capacity negative");
     super.ArrayAlloc(newsize);
