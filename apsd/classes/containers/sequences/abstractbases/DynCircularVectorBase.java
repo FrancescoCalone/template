@@ -41,33 +41,27 @@ abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Dat
 
   // ShiftRight
   @Override
-  public void ShiftRight(Natural pos, Natural num){
-    if (pos == null) throw new NullPointerException("Position cannot be null!");
-    long idx = pos.ToLong();
+  public void ShiftRight(Natural pos, Natural num) {
+    if (pos == null || num == null) throw new NullPointerException();
     long len = num.ToLong();
-    long sizeLong = size;
-    if (idx < 0 || idx > sizeLong) throw new IndexOutOfBoundsException("Index out of bounds: " + idx + "; Size: " + sizeLong);
     if (len <= 0) return;
-    while (sizeLong + len > arr.length) {
-      Grow();
-      sizeLong = size;
+    long sz = size;
+    long idx = pos.ToLong();
+    if (idx < 0 || idx > sz) throw new IndexOutOfBoundsException("Index out of bounds: " + idx + "; Size: " + sz);
+    if (size + len > Capacity().ToLong()) {
+      Expand(Natural.Of(len)); 
+    } else {
+      size += len; 
     }
-    if (idx == sizeLong) {
-      for (long i = 0; i < len; i++) {
-        SetAt(null, Natural.Of(sizeLong + i));
-      }
-      size += len;
-      return;
-    }
-    for (long i = sizeLong - 1; i >= idx; i--) {
+    long oldSize = sz;
+    long cap = Capacity().ToLong();
+    for (long i = oldSize - 1; i >= idx; i--) {
       SetAt(GetAt(Natural.Of(i)), Natural.Of(i + len));
     }
     for (long i = idx; i < idx + len; i++) {
       SetAt(null, Natural.Of(i));
     }
-    size += len;
   }
-
 
   /* ************************************************************************ */
   /* Override specific member functions from ClearableContainer               */
@@ -112,7 +106,7 @@ abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Dat
     long newsize = size + n;
     if (newsize > Capacity().ToLong()) {
       Natural newcapacity = Natural.Of(Math.max(newsize, Capacity().ToLong() * 2));
-      ArrayAlloc(newcapacity);
+      Grow(newcapacity);
     }
     size = newsize;
     }

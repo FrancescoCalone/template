@@ -23,6 +23,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
         right = mid - 1;
       }
     }
+    if (ans < 0) return null;
     return Natural.Of(ans);
   }
 
@@ -36,13 +37,14 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
       long mid = (left + right) / 2;
       Data midVal = GetAt(Natural.Of(mid));
       int cmp = midVal.compareTo(element);
-      if (cmp > 0) {
+      if (cmp==0) {
         ans = mid;
         right = mid - 1;
       } else {
         left = mid + 1;
       }
     }
+    if (ans < 0) return null;
     return Natural.Of(ans);
   }
 
@@ -80,26 +82,26 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
   /* ************************************************************************ */
   @Override
   default Data Min() {
-      if (isEmpty()) return null;
+      if (IsEmpty()) return null;
       return GetAt(Natural.ZERO);
   }
  
   @Override
   default Data Max() {
-      if (isEmpty()) return null;
+      if (IsEmpty()) return null;
       return GetAt(Natural.Of(Size().ToLong() - 1));
   }
     
   @Override
   default void RemoveMin() {
-      if (!isEmpty()) {
+      if (!IsEmpty()) {
           RemoveAt(Natural.ZERO);
       }
   }
 
   @Override
   default void RemoveMax() {
-      if (!isEmpty()) {
+      if (!IsEmpty()) {
           RemoveAt(Natural.Of(Size().ToLong() - 1));
       }
   }

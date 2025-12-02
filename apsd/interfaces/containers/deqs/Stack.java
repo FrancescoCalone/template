@@ -6,15 +6,15 @@ import apsd.interfaces.containers.base.InsertableContainer;
 public interface Stack<Data> extends ClearableContainer, InsertableContainer<Data> { 
 
   // Top
-  Data top();
+  Data Top();
 
   // Pop
   void Pop();
 
   // TopNPop
   default Data TopNPop(){
-  if(!isEmpty()){
-    Data topItem = top();
+  if(!IsEmpty()){
+    Data topItem = Top();
     Pop();
     return topItem;
   }
@@ -30,7 +30,7 @@ public interface Stack<Data> extends ClearableContainer, InsertableContainer<Dat
   
   // TopNSwap
   default Data TopNSwap(Data item){
-    Data topItem = top();
+    Data topItem = Top();
     Pop();
     Push(item);
     return topItem;
@@ -45,7 +45,7 @@ public interface Stack<Data> extends ClearableContainer, InsertableContainer<Dat
 
   @Override
   default void Clear() {
-    while (!isEmpty()) {
+    while (!IsEmpty()) {
       Pop();
     }
   }

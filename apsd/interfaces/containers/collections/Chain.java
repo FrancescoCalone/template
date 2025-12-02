@@ -6,6 +6,8 @@ import apsd.interfaces.containers.sequences.RemovableAtSequence;
 
 
 public interface Chain<Data> extends RemovableAtSequence<Data>,Set<Data> {
+  // IsEmpty
+  default boolean IsEmpty() { return Size() != null && Size().IsZero(); }
 
   // InsertIfAbsent
   default boolean InsertIfAbsent(Data item) {

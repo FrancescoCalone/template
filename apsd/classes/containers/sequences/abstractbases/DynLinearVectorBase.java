@@ -14,6 +14,19 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
     super(con);
   }
 
+  public DynLinearVectorBase() {
+    super();
+  }
+
+  public DynLinearVectorBase(Natural size) {
+    super(size);
+  }
+  
+  public DynLinearVectorBase(Data[] arr) {
+    super(arr);
+    this.size = arr.length;
+  }
+
   public void ArrayAlloc(Natural newcapacity) {
     long capacity = newcapacity.ToLong();
     if (capacity < 0) throw new IllegalArgumentException("Capacity negative");
@@ -45,9 +58,13 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
   @Override 
   public void Realloc(Natural newsize) {
     long nsize = newsize.ToLong();
+    Data[] oldArr = arr;
     if (nsize < 0) throw new IllegalArgumentException("Size negative");
     ArrayAlloc(newsize);
-    if (size > nsize) size = nsize;
+    size = size> nsize ? nsize : size;
+    for(int i = 0; i < size; i++) {
+      arr[i] = oldArr[i];
+    }
   }
 
   /* ************************************************************************ */
@@ -62,7 +79,7 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
     if (newsize < 0) throw new ArithmeticException("Overflow: size cannot be negative!");
     size = newsize;
     if (Capacity().ToLong() < size) {
-      Realloc(Natural.Of(size));
+     Grow(num);
     }
   }
 
@@ -74,7 +91,9 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
     if (n > size) throw new IllegalArgumentException("Size to reduce exceeds current size");
     long newsize = size - n;
     size = newsize;
+    if (Capacity().ToLong() > size * 4) {
     Shrink();
   }
 
-  }
+}
+}

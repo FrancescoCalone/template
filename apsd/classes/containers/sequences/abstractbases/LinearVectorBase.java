@@ -11,6 +11,18 @@ abstract public class LinearVectorBase<Data> extends VectorBase<Data> { // Must 
     super(con);
   }
 
+  public LinearVectorBase() {
+    super();
+  }
+
+  public LinearVectorBase(Natural size) {
+    super(size);
+  }
+
+  public LinearVectorBase(Data[] arr) {
+    super(arr);
+  }
+
 
 
   /* ************************************************************************ */

@@ -4,17 +4,17 @@ package apsd.interfaces.containers.collections;
 public interface OrderedSet<Data extends Comparable<? super Data>> extends Set<Data> {
 
   // Min
-  default Data Min(){
-  return FoldForward((cur, res) -> {
-    if (res != null) return res;
-    if (cur == null) return null;
-    return cur.compareTo(res) < 0 ? cur : null;
-  }, null);
+  default Data Min() {
+    return FoldForward((res, cur) -> {
+      if (res == null) return cur;
+      if (cur == null) return res;
+      return cur.compareTo(res) < 0 ? cur : res;
+    }, null);
   }
 
   // RemoveMin
   default void RemoveMin(){
-    if (isEmpty()) return;
+    if (IsEmpty()) return;
     Remove(Min());
   }
 
@@ -26,17 +26,17 @@ public interface OrderedSet<Data extends Comparable<? super Data>> extends Set<D
   }
 
   // Max
-  default Data  Max(){
-  return FoldForward((cur, res) -> {
-    if (res != null) return res;
-    if (cur == null) return null;
-    return cur.compareTo(res) > 0 ? cur : null;
-  }, null);
+  default Data Max() {
+    return FoldForward((res, cur) -> {
+      if (res == null) return cur;
+      if (cur == null) return res;
+      return cur.compareTo(res) > 0 ? cur : res;
+    }, null);
   }
 
   // RemoveMax
   default void RemoveMax(){
-    if (isEmpty()) return;
+    if (IsEmpty()) return;
     Remove(Max());
   }
 
@@ -49,7 +49,7 @@ public interface OrderedSet<Data extends Comparable<? super Data>> extends Set<D
 
   // Predecessor
   default Data Predecessor(Data element) {
-    if (isEmpty() || element == null) return null;
+    if (IsEmpty() || element == null) return null;
     return FoldBackward((cur, res) -> {
       if (res != null) return res;
       if (cur == null) return null;
@@ -76,7 +76,7 @@ public interface OrderedSet<Data extends Comparable<? super Data>> extends Set<D
 
   // Successor
   default Data Successor(Data element) {
-    if (isEmpty() || element == null) return null;
+    if (IsEmpty() || element == null) return null;
     return FoldForward((cur, res) -> {
       if (res != null) return res;
       if (cur == null) return null;

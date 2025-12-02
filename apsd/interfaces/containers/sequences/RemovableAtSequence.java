@@ -28,12 +28,12 @@ public interface RemovableAtSequence<Data>  extends Sequence<Data> { // Must ext
 
   // RemoveLast
   default void RemoveLast(){
-    RemoveAt (isEmpty() ? Natural.ZERO : Size().Decrement());
+    RemoveAt (IsEmpty() ? Natural.ZERO : Size().Decrement());
   }
 
   // LastNRemove
   default Data LastNRemove(){
-    return AtNRemove(isEmpty() ? Natural.ZERO : Size().Decrement());
+    return AtNRemove(IsEmpty() ? Natural.ZERO : Size().Decrement());
   }
 
 }

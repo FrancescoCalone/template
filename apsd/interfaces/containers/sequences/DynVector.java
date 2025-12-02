@@ -15,6 +15,7 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
   long pos = position.ToLong();
   long size = Size().ToLong();
   if (pos < 0 || pos > size) return;
+  if (size + 1 > Capacity().ToLong()) Grow();
   ShiftRight(Natural.Of(pos), Natural.ONE);
   SetAt(value, Natural.Of(pos));
   }
@@ -30,8 +31,8 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
   long size = Size().ToLong();
   if (pos < 0 || pos >= size) return null;
   Data old = GetAt(Natural.Of(pos));
-  // Sposta a sinistra per colmare il buco e decrementa Size
-  ShiftLeft(Natural.Of(pos), Natural.ONE);
+  if(pos<size-1) ShiftLeft(Natural.Of(pos), Natural.ONE);
+  RemoveAt(position);
   return old;
   }
 
@@ -47,9 +48,9 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
   long size = Size().ToLong();
   if (p < 0 || p >= size || n <= 0) return;
   Vector.super.ShiftLeft(Natural.Of(p), Natural.Of(n));
-  // Riduce la capacità/size tramite API di ResizableContainer
-  Reduce(Natural.Of(n));
   }
+
+
 
   @Override
   default void ShiftRight(Natural pos, Natural num) {
@@ -58,10 +59,10 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
   long n = num.ToLong();
   long size = Size().ToLong();
   if (p < 0 || p >= size || n <= 0) return;
-  // Aumenta capacità/size prima di spostare
-  Expand(Natural.Of(n));
+  if (size + n > Capacity().ToLong()) Expand(Natural.Of(n));
   Vector.super.ShiftRight(Natural.Of(p), Natural.Of(n));
   }
+  
 
   @Override
   default Vector<Data> SubVector(Natural start, Natural end){

@@ -34,9 +34,9 @@ public interface TraversableContainer<Data> extends MembershipContainer<Data> { 
   
   @Override
   default Natural Size() { 
-    final Box<Long> count = new Box<>(0L);
-    TraverseForward(dat -> { count.Set(count.Get() + 1); return false; });
-    return Natural.Of(count.Get());
+    final Box<Natural> count = new Box<>(Natural.ZERO);
+    TraverseForward(dat -> { count.Set(count.Get().Increment()); return false; });
+    return count.Get();
   }
   /* ************************************************************************ */
   /* Override specific member functions from MembershipContainer              */

@@ -9,6 +9,8 @@ import apsd.classes.utilities.Natural;
 
 /** Object: Concrete set implementation via (dynamic circular) vector. */
 public class VSortedChain<Data extends Comparable<? super Data>> extends VChainBase<Data> implements SortedChain<Data> {
+  // IsEmpty
+  public boolean IsEmpty() { return Size() != null && Size().IsZero(); }
 
   public VSortedChain() {
     super();
@@ -38,6 +40,30 @@ public class VSortedChain<Data extends Comparable<? super Data>> extends VChainB
   
   @Override
   public boolean Insert(Data val){
+    /*if (val == null) {
+        throw new IllegalArgumentException();
+    }
+
+    Natural index = SearchPredecessor(val);
+
+    if (vec.Size().equals(vec.Capacity())) { 
+        vec.Expand(Natural.ONE);
+    }
+
+    if (index == null) {
+      vec.ShiftFirstRight();
+      vec.InsertFirst(val);
+    } else {
+    if (index.compareTo(new Natural(vec.Capacity().ToLong()/2)) > 0) {
+        vec.ShiftRight(index); 
+    } else {
+        vec.ShiftLeft(index);      
+    }
+    vec.InsertAt(val, index); 
+    }
+
+    return true;
+    */
     return InsertIfAbsent(val);
   }
   
@@ -47,31 +73,59 @@ public class VSortedChain<Data extends Comparable<? super Data>> extends VChainB
   /* Override specific member functions from Chain                            */
   /* ************************************************************************ */
 
+  
   @Override
-  public boolean InsertIfAbsent(Data val) {
-    if (Search(val) == null) {
-       if(val==null) throw new IllegalArgumentException("Null data cannot be inserted.");
-      Natural index=SearchPredecessor(val);
-      if(vec.Size().equals(vec.Capacity())) {
-              vec.Expand(Natural.ONE);
-      }
-      if(index==null){
-          vec.ShiftFirstRight(Natural.ZERO);
-          vec.InsertFirst(val);
-      }else if(index.compareTo(Natural.Of((Size().ToLong()/2))) < 0) {
-          vec.ShiftRight(index);
-          vec.InsertAt(val,index);
-      }else{
-          vec.ShiftLastRight(index);
-          vec.InsertAt(val,index);
-      }
-      return true;
+  public boolean InsertIfAbsent(Data data) {
+    if (data == null) {
+        throw new IllegalArgumentException();
+    }
+
+    if (Search(data) != null) {
+        return false;
+    }
+
+    Natural index = SearchPredecessor(data)!=null ? SearchPredecessor(data) : Natural.ZERO ;
+
+    if (vec.Size().equals(vec.Capacity())) { 
+        vec.Expand(Natural.ONE);
+    }
+
+    if (index == null) {
+        vec.ShiftFirstRight(); 
+        vec.InsertFirst(data);
     } else {
-      return false; 
-  }
+        vec.ShiftFirstRight(); 
+        vec.ShiftRight(index);     
+        vec.InsertAt(data, index); 
+    }
+
+    return true;
 
   }
 
+  @Override
+  public void RemoveOccurrences(Data data) {
+    if (data == null) return;
+    Natural pred = SearchPredecessor(data);
+    Natural pos;
+    if (pred == null) {
+      pos = Natural.ZERO;
+    } else {
+      pos = pred.Increment();
+    }
+    while (pos.ToLong() < vec.Size().ToLong()) {
+      Data curr = vec.GetAt(pos);
+      if (curr == null) {
+        break;
+      }
+      int cmp = curr.compareTo(data);
+      if (cmp == 0) {
+        vec.RemoveAt(pos); 
+      } else {
+        break; 
+      }
+    }
+  }
 }
 
 

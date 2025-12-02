@@ -149,6 +149,9 @@ abstract public class LLChainBase<Data> implements Chain<Data> { // Must impleme
 
   @Override
   public Data GetFirst() {
+    if(IsEmpty()){
+      throw new IndexOutOfBoundsException("Sequence vuota!");
+    }
     LLNode<Data> node = headref.Get();
     return node != null ? node.Get() : null;
   }
@@ -156,6 +159,9 @@ abstract public class LLChainBase<Data> implements Chain<Data> { // Must impleme
 
   @Override
   public Data GetLast() {
+    if(IsEmpty()){
+      throw new IndexOutOfBoundsException("Sequence vuota!");
+    }
     LLNode<Data> node = tailref.Get();
     return node != null ? node.Get() : null;
   }

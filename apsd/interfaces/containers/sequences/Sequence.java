@@ -9,6 +9,7 @@ public interface Sequence<Data> extends IterableContainer<Data> {
   
   // GetAt
   default Data GetAt(Natural num){
+    if(IsEmpty()) throw new IndexOutOfBoundsException("Sequence vuota!");
     long idx = ExcIfOutOfBound(num);
     ForwardIterator<Data> it = FIterator();
     it.Next(Natural.Of(idx));
@@ -17,13 +18,13 @@ public interface Sequence<Data> extends IterableContainer<Data> {
 
   // GetFirst
   default Data GetFirst() {
-    if (isEmpty()) throw new IndexOutOfBoundsException("Sequence vuota!");
-    return GetAt(Natural.Of(0));
+    if (IsEmpty()) throw new IndexOutOfBoundsException("Sequence vuota!");
+    return GetAt(Natural.ZERO);
   }
   
   // GetLast
   default Data GetLast() {
-    if (isEmpty()) throw new IndexOutOfBoundsException("Sequence vuota!");
+    if (IsEmpty()) throw new IndexOutOfBoundsException("Sequence vuota!");
     return GetAt(Natural.Of(Size().ToLong() - 1));
   }
 
@@ -38,7 +39,7 @@ public interface Sequence<Data> extends IterableContainer<Data> {
     }
     idx = idx.Increment();
   }
-  return Natural.Of(-1);
+  return null;
   }
 
   // IsInBound

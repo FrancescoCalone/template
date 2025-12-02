@@ -15,7 +15,7 @@ public interface IterableContainer<Data> extends TraversableContainer<Data> {
 
   // IsEqual
   default boolean IsEqual (IterableContainer<Data> other) {
-    if(other.isEmpty()) return false;
+     if(other.IsEmpty()) return false;
     final ForwardIterator<Data> itThis = FIterator();
     final ForwardIterator<Data> itOther = other.FIterator();
     if(itOther==null || itThis==null) return false;

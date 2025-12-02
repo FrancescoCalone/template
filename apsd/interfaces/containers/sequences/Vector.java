@@ -22,7 +22,7 @@ public interface Vector<Data> extends ReallocableContainer, MutableSequence<Data
           for (long rdr = wrt + len; rdr < size; rdr++, wrt++) {
                Natural natrdr = Natural.Of(rdr);
                 SetAt(GetAt(natrdr), Natural.Of(wrt));
-         SetAt(null, natrdr);
+                SetAt(null, natrdr);
        }
        for (; wrt - iniwrt < len; wrt++) {
          SetAt(null, Natural.Of(wrt));
@@ -32,13 +32,13 @@ public interface Vector<Data> extends ReallocableContainer, MutableSequence<Data
 
 
   // ShiftFirstLeft
-  default void ShiftFirstLeft(Natural num) {
-    ShiftLeft(Natural.ZERO, num);
+  default void ShiftFirstLeft() {
+    ShiftLeft(Natural.ZERO, Natural.ONE);
   }
 
   // ShiftLastLeft
-  default void ShiftLastLeft(Natural num) {
-    ShiftLeft(Natural.Of(Size().ToLong() - 1), num);
+  default void ShiftLastLeft() {
+    ShiftLeft(Natural.Of(Size().ToLong() - 1), Natural.ONE  );
   }
   
   
@@ -68,13 +68,13 @@ public interface Vector<Data> extends ReallocableContainer, MutableSequence<Data
 
 
   // ShiftFirstRight
-  default void ShiftFirstRight(Natural num) {
-    ShiftRight(Natural.ZERO, num);
+  default void ShiftFirstRight() {
+    ShiftRight(Natural.ZERO, Natural.ONE);
   }
 
   // ShiftLastRight
-  default void ShiftLastRight(Natural num) {
-    ShiftRight(Natural.Of(Size().ToLong() - 1), num);
+  default void ShiftLastRight() {
+    ShiftRight(Natural.Of(Size().ToLong() - 1), Natural.ONE);
   }
 
   // SubVector

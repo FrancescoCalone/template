@@ -6,16 +6,17 @@ import apsd.interfaces.containers.base.InsertableContainer;
 public interface Queue<Data> extends ClearableContainer, InsertableContainer<Data>{ // Must extend ClearableContainer and InsertableContainer
 
   // Head
-  Data head();
+  Data Head();
   
   // Dequeue
   void Dequeue();
 
   // HeadNDequeue
-  default Data HeadNDeque(){
-   if(!isEmpty()){
+  default Data HeadNDequeue(){
+   if(!IsEmpty()){
+    Data  value = Head();
     Dequeue();
-    return head();
+    return value;
    }
    else{
     throw new IllegalStateException("Queue vuota");
@@ -32,7 +33,7 @@ public interface Queue<Data> extends ClearableContainer, InsertableContainer<Dat
 
   @Override
   default void Clear() {
-    while (!isEmpty()) {
+    while (!IsEmpty()) {
       Dequeue();
     }
   }

@@ -23,6 +23,11 @@ public interface MutableSequence<Data> extends Sequence<Data>, MutableIterableCo
     Data oldValue = (Data)it.GetCurrent();
     it.SetCurrent(value);
     return oldValue;
+    /*  
+     Data oldValue = GetAt(position);
+     SetAt(value, position);
+     return oldValue;
+     */
   }
 
   // SetFirst

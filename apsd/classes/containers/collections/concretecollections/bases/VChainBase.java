@@ -23,7 +23,13 @@ abstract public class VChainBase<Data> implements Chain<Data> { // Must implemen
   }
 
   public VChainBase(TraversableContainer<Data> con) {
-    vec = new DynCircularVector<Data>(con);
+    vec = new DynCircularVector<>();
+    if (con != null) {
+      con.TraverseForward(d -> {
+        if (d != null) vec.InsertAt(d, vec.Size());
+        return false;
+      });
+    }
   }
 
   public VChainBase() {

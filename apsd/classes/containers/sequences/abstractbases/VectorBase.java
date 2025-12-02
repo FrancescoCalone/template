@@ -57,6 +57,7 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
   @Override
   public void Clear() {
     Realloc(Natural.ZERO);
+    arr = null;
   }
   
   /* ************************************************************************ */
@@ -65,7 +66,7 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
 
   @Override
   public Natural Capacity() {
-    return Natural.Of(arr.length);
+    return arr == null ? Natural.ZERO: Natural.Of(arr.length);
   }
 
   /* ************************************************************************ */

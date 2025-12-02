@@ -1,5 +1,7 @@
 package apsd.classes.containers.collections.concretecollections;
 
+import java.util.Set;
+
 import apsd.classes.containers.collections.concretecollections.bases.LLChainBase;
 import apsd.classes.containers.collections.concretecollections.bases.LLNode;
 import apsd.classes.utilities.Box;
@@ -10,6 +12,7 @@ import apsd.interfaces.containers.iterators.ForwardIterator;
 import apsd.interfaces.containers.iterators.MutableBackwardIterator;
 import apsd.interfaces.containers.iterators.MutableForwardIterator;
 import apsd.interfaces.containers.sequences.MutableSequence;
+import javax.xml.crypto.Data;
 
 
 /** Object: Concrete list implementation on linked-list. */
@@ -196,5 +199,27 @@ public class LLList<Data> extends LLChainBase<Data> implements List<Data> {
     size.Increment();
   }
 
+  @Override
+  public void SetFirst(Data data) {
+    SetAt(data, Natural.ZERO);
+  }
+
+  @Override
+  public void SetLast(Data data) {
+    SetAt(data, new Natural(Size().ToLong() - 1));
+  }
+   
+  @Override
+  public void SetAt(Data data,Natural index){ {
+    if(index.ToLong()<0 || index.ToLong()>=this.Size().ToLong()){
+        throw new IndexOutOfBoundsException("Index out of bounds.");
+    }
+    LLNode<Data> current = headref.Get();
+    for (long i = 0; i < index.ToLong(); i++) {
+      current = current.GetNext().Get();
+    }
+    current.Set(data);    
+  }
+  }
 }
 

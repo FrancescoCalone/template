@@ -13,7 +13,7 @@ public interface SortedSequence<Data extends Comparable<? super Data>> extends S
   @Override
   default boolean Exists(Data value) {
     if (value == null) throw new IllegalArgumentException("Value nullo");
-    return Search(value).ToLong() >= 0;
+    return Search(value) != null;
   }
 
   /* ************************************************************************ */

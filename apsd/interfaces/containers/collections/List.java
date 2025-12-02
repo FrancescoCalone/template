@@ -8,7 +8,7 @@ public interface List<Data> extends MutableSequence<Data>, InsertableAtSequence<
 
  // SubList
  default List<Data> SubList(Natural start, Natural end){
-    if (start == null || end == null) throw new NullPointerException("Indici null");
+   /*  if (start == null || end == null) throw new NullPointerException("Indici null");
     long s = start.ToLong();
     long e = end.ToLong();
     if (s > e || e >= Size().ToLong()) throw new IndexOutOfBoundsException("Intervallo non valido: ["+s+","+e+"] size="+Size().ToLong());
@@ -19,7 +19,9 @@ public interface List<Data> extends MutableSequence<Data>, InsertableAtSequence<
       }
     }
     return this;
-  }
+  } */
+  return (List<Data>) Chain.super.SubChain(start, end);
+ }
 
   /* ************************************************************************ */
   /* Override specific member functions from ExtensibleContainer              */
