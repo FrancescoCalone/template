@@ -30,7 +30,7 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
   public void ArrayAlloc(Natural newcapacity) {
     long capacity = newcapacity.ToLong();
     if (capacity < 0) throw new IllegalArgumentException("Capacity negative");
-    ArrayAlloc(newcapacity);
+    super.ArrayAlloc(newcapacity);
   }
   /* ************************************************************************ */
   /* Override specific member functions from Container                        */

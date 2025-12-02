@@ -65,12 +65,10 @@ public class WQueue<Data> implements Queue<Data> { // Must implement Queue
   @Override
   public void Dequeue() {
     lst.RemoveFirst();
-    Size().Decrement();
   }
   
   @Override
   public Data HeadNDequeue() {
-    Size().Decrement();
     return  Queue.super.HeadNDequeue();
 
   }
@@ -78,6 +76,5 @@ public class WQueue<Data> implements Queue<Data> { // Must implement Queue
   @Override
   public void Enqueue(Data itemData) {
     lst.InsertAt(itemData, lst.Size());
-    Size().Increment();
 }
 }

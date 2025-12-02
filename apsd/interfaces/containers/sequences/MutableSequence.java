@@ -42,11 +42,13 @@ public interface MutableSequence<Data> extends Sequence<Data>, MutableIterableCo
 
   // SetLast
   default void SetLast(Data value){
+    if (Size().IsZero()) throw new IndexOutOfBoundsException("Sequence vuota!");
     SetAt(value, Natural.Of(Size().ToLong()-1));
   }
 
   // GetNSetLast
   default Data GetNSetLast(Data value){
+    if (Size().IsZero()) throw new IndexOutOfBoundsException("Sequence vuota!");
     return GetNSetAt(value, Natural.Of(Size().ToLong() - 1));
   }
 

@@ -62,19 +62,16 @@ public class WStack<Data> implements Stack<Data> { // Must implement Stack
   @Override
   public void Pop() {
     lst.RemoveLast();
-    Size().Decrement();
   }
 
   @Override
   public Data TopNPop() {
-    Size().Decrement();
     return Stack.super.TopNPop();
   }
 
   @Override
   public void Push(Data itemData) {
     lst.InsertAt(itemData, lst.Size());
-    Size().Increment();
   }
   
   @Override

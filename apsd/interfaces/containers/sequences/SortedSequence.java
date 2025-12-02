@@ -23,6 +23,7 @@ public interface SortedSequence<Data extends Comparable<? super Data>> extends S
   @Override
   default Natural Search(Data value) {
     if (value == null) throw new IllegalArgumentException("Value nullo");
+    if (Size().IsZero()) return null;
     Natural left = Natural.Of(0);
     Natural right = Natural.Of(Size().ToLong() - 1);
     while (left.ToLong() <= right.ToLong()) {
