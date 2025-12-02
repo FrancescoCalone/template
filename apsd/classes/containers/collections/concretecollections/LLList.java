@@ -12,7 +12,6 @@ import apsd.interfaces.containers.iterators.ForwardIterator;
 import apsd.interfaces.containers.iterators.MutableBackwardIterator;
 import apsd.interfaces.containers.iterators.MutableForwardIterator;
 import apsd.interfaces.containers.sequences.MutableSequence;
-import javax.xml.crypto.Data;
 
 
 /** Object: Concrete list implementation on linked-list. */
@@ -25,7 +24,15 @@ public class LLList<Data> extends LLChainBase<Data> implements List<Data> {
 
   // public LLList(TraversableContainer<Data> con)
   public LLList(TraversableContainer<Data> con) {
-    super(con);
+    super();
+    if (con != null) {
+      con.TraverseForward(d -> {
+        if (d != null) {
+          this.InsertAt(d, this.Size());
+        }
+        return false;
+      });
+    }
   }
 
   protected LLList(long size, LLNode<Data> head, LLNode<Data> tail) {
@@ -172,32 +179,32 @@ public class LLList<Data> extends LLChainBase<Data> implements List<Data> {
   /* ************************************************************************ */
 
   @Override
-  public void InsertAt( Data val, Natural index) {
-    if(index.ToLong()<0 || index.ToLong()>this.Size().ToLong()){
-        throw new IndexOutOfBoundsException("Index out of bounds.");
-    }
-    if (index.ToLong() == 0) {
-      LLNode<Data> newNode = new LLNode<>(null);
-      newNode.SetNext(headref.Get());
-      headref.Set(newNode);
-      if (size.ToLong() == 0) {
-        tailref.Set(newNode);
-      }
-    } else {
-      LLNode<Data> prev = headref.Get();
-      for (long i = 0; i < index.ToLong() - 1; i++) {
-        prev = prev.GetNext().Get();
-      }
-      LLNode<Data> newNode = new LLNode<>(null);
-      newNode.SetNext(prev.GetNext().Get());
-      prev.SetNext(newNode);
-      if (index.ToLong() == size.ToLong()) {
-        tailref.Set(newNode);
-      }
-    }
-    SetAt(val, index);
-    size.Increment();
+public void InsertAt(Data val, Natural index) {
+  if (val == null) return;
+  if (index.ToLong() < 0 || index.ToLong() > this.Size().ToLong()) {
+    throw new IndexOutOfBoundsException("Index out of bounds.");
   }
+  LLNode<Data> newNode = new LLNode<>(val);
+  if (index.ToLong() == 0) {
+    newNode.SetNext(headref.Get());
+    headref.Set(newNode);
+    if (size.ToLong() == 0) {
+      tailref.Set(newNode);
+    }
+  } else {
+    LLNode<Data> prev = headref.Get();
+    for (long i = 0; i < index.ToLong() - 1; i++) {
+      if (prev == null) return; // sicurezza contro loop
+      prev = prev.GetNext().Get();
+    }
+    newNode.SetNext(prev.GetNext().Get());
+    prev.SetNext(newNode);
+    if (index.ToLong() == size.ToLong()) {
+      tailref.Set(newNode);
+    }
+  }
+  size.Increment();
+}
 
   @Override
   public void SetFirst(Data data) {

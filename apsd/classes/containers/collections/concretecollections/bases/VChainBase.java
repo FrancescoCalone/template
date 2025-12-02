@@ -26,7 +26,7 @@ abstract public class VChainBase<Data> implements Chain<Data> { // Must implemen
     vec = new DynCircularVector<>();
     if (con != null) {
       con.TraverseForward(d -> {
-        if (d != null) vec.InsertAt(d, vec.Size());
+        if (d != null && this.Search(d) == null) vec.InsertAt(d, vec.Size());
         return false;
       });
     }

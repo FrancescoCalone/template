@@ -345,25 +345,31 @@ abstract public class LLChainBase<Data> implements Chain<Data> { // Must impleme
   
   @Override
   public void RemoveFirst() {
+    if (headref.Get() != null) {
       headref.Set(headref.Get().GetNext().Get());
       size.Decrement();
       if (size.ToLong() == 0) {
-          tailref.Set(headref.Get());
+        tailref.Set(headref.Get());
       }
+    }
   }
 
   @Override
   public void RemoveLast() {
-      BrefIterator().ForEachBackward(cur -> {
-          LLNode<Data> node = cur.Get();
-          if (node.GetNext().Get() == tailref.Get()) {
-              node.SetNext(null);
-              tailref.Set(node);
-              size.Decrement();
-              return true;
-          }
-          return false;
-      });
+    if (headref.Get() == null) return;
+    if (headref.Get() == tailref.Get()) {
+      headref.Set(null);
+      tailref.Set(null);
+      size.Assign(0);
+      return;
+    }
+    LLNode<Data> prev = headref.Get();
+    while (prev.GetNext().Get() != tailref.Get()) {
+      prev = prev.GetNext().Get();
+    }
+    prev.SetNext(null);
+    tailref.Set(prev);
+    size.Decrement();
   }
 
   @Override
