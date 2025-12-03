@@ -21,7 +21,13 @@ public class VSortedChain<Data extends Comparable<? super Data>> extends VChainB
   }
 
   public VSortedChain(TraversableContainer<Data> con) {
-    super(con);
+    super();
+    if (con != null) {
+      con.TraverseForward(d -> {
+        this.InsertIfAbsent(d);
+        return false;
+      });
+    }
   }
 
   protected VSortedChain(DynVector<Data> vec) {
