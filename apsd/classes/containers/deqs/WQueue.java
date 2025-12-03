@@ -28,9 +28,8 @@ public class WQueue<Data> implements Queue<Data> { // Must implement Queue
 
   public WQueue(List<Data> lst, TraversableContainer<Data> con) { 
     this.lst = lst;
-    final Natural initialSize = lst.Size();
     con.TraverseForward(data -> {
-      lst.InsertAt(data, initialSize.Increment());
+      lst.InsertAt(data, lst.Size());
       return false;
     });
   }

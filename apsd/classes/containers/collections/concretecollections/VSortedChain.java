@@ -86,24 +86,36 @@ public class VSortedChain<Data extends Comparable<? super Data>> extends VChainB
         throw new IllegalArgumentException();
     }
 
-    if (Search(data) != null) {
-        return false;
-    }
+    System.out.println("[DEBUG VSortedChain.InsertIfAbsent] before Search/Insert data=" + data + " size=" + this.Size());
 
-    Natural index = SearchPredecessor(data)!=null ? SearchPredecessor(data) : Natural.ZERO ;
-
-    if (vec.Size().equals(vec.Capacity())) { 
-        vec.Expand(Natural.ONE);
-    }
-
-    if (index == null) {
-        vec.ShiftFirstRight(); 
-        vec.InsertFirst(data);
+    // Avoid calling SortedSequence.Search directly (it may compute Size()-1 and throw for empty)
+    Natural pred = SearchPredecessor(data);
+    // Check whether the element already exists at successor position
+    if (pred != null) {
+      Natural pos = pred.Increment();
+      if (pos.ToLong() < vec.Size().ToLong()) {
+        Data curr = vec.GetAt(pos);
+        if (curr != null && curr.compareTo(data) == 0) {
+          System.out.println("[DEBUG VSortedChain.InsertIfAbsent] data exists: " + data + " size=" + this.Size());
+          return false;
+        }
+      }
     } else {
-        vec.ShiftFirstRight(); 
-        vec.ShiftRight(index);     
-        vec.InsertAt(data, index); 
+      if (vec.Size().ToLong() > 0) {
+        Data curr0 = vec.GetAt(Natural.ZERO);
+        if (curr0 != null && curr0.compareTo(data) == 0) {
+          System.out.println("[DEBUG VSortedChain.InsertIfAbsent] data exists: " + data + " size=" + this.Size());
+          return false;
+        }
+      }
     }
+
+    Natural index = pred != null ? pred.Increment() : Natural.ZERO;
+
+    // Delegate to vec.InsertAt which handles capacity and shifting exactly once
+    vec.InsertAt(data, index);
+
+    System.out.println("[DEBUG VSortedChain.InsertIfAbsent] after Insert data=" + data + " size=" + this.Size());
 
     return true;
 

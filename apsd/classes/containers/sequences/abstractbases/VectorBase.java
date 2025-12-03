@@ -32,9 +32,10 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
       return;
     }
     ArrayAlloc(con.Size());
-    final MutableNatural pos = MutableNatural.ZERO;
+    final MutableNatural pos = new MutableNatural();
     con.TraverseForward(data -> {
-      SetAt(data, pos.GetNIncrement());
+      long idx = pos.GetLongNIncrement();
+      arr[(int) idx] = data;
       return false;
     });
   }
@@ -75,8 +76,8 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
   @Override
   public MutableBackwardIterator<Data> BIterator() {
     return new MutableBackwardIterator<Data>() {
-  private int index = (arr != null && arr.length > 0 ? arr.length - 1 : 0);
-  private final int size = (arr != null ? arr.length : 0);
+  private int index = (arr != null && Size().ToLong() > 0 ? (int)Size().ToLong() - 1 : 0);
+  private final int size = (arr != null ? (int)Size().ToLong() : 0);
 
       @Override
       public boolean IsValid() {
@@ -85,7 +86,7 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
 
       @Override
       public void Reset() {
-      index = (arr != null && arr.length > 0 ? arr.length - 1 : 0);
+      index = (arr != null && Size().ToLong() > 0 ? (int)Size().ToLong() - 1 : 0);
       }
 
       @Override
@@ -122,7 +123,7 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
   public MutableForwardIterator<Data> FIterator() {
     return new MutableForwardIterator<Data>() {
       private int index = 0;
-      private final int size = (arr != null ? arr.length : 0);
+      private final int size = (arr != null ? (int)Size().ToLong() : 0);
 
       @Override
       public boolean IsValid() {

@@ -70,7 +70,10 @@ abstract public class WSetBase<Data, Chn extends Chain<Data>> implements Set<Dat
 
   @Override
   public boolean Insert(Data data) {
-   return chn.InsertIfAbsent(data);
+    System.out.println("[DEBUG WSetBase.Insert] before Insert data=" + data + " size=" + (chn==null?"null":chn.Size()));
+    boolean res = chn.InsertIfAbsent(data);
+    System.out.println("[DEBUG WSetBase.Insert] after Insert data=" + data + " result=" + res + " size=" + (chn==null?"null":chn.Size()));
+    return res;
   }
 
   /* ************************************************************************ */

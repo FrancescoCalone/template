@@ -24,9 +24,8 @@ public class WStack<Data> implements Stack<Data> { // Must implement Stack
   }
   public WStack(List<Data> lst, TraversableContainer<Data> con){ 
     this.lst = lst;
-    final Natural initialSize = lst.Size();
     con.TraverseForward(data -> {
-      lst.InsertAt(data, initialSize.Increment());
+      lst.InsertAt(data, lst.Size());
       return false;
     });
   }

@@ -41,6 +41,9 @@ abstract public class CircularVectorBase<Data> extends VectorBase<Data> {
   
   @Override
   public void SetAt(Data element, Natural n) {
+    if(n==null){
+        throw new IllegalArgumentException("Index is null.");
+    }
     long index = n.ToLong();
     if (index < 0 || index >= Size().ToLong()) throw new IndexOutOfBoundsException("Invalid index");
     arr[(int) ((start + index) % arr.length)] = element;

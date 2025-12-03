@@ -12,6 +12,9 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
   // DynLinearVectorBase
   public  DynLinearVectorBase(TraversableContainer<Data> con) {
     super(con);
+    if (con != null) {
+      this.size = con.Size().ToLong();
+    }
   }
 
   public DynLinearVectorBase() {
@@ -62,8 +65,11 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
     if (nsize < 0) throw new IllegalArgumentException("Size negative");
     ArrayAlloc(newsize);
     size = size> nsize ? nsize : size;
-    for(int i = 0; i < size; i++) {
-      arr[i] = oldArr[i];
+    if (oldArr != null) {
+      int copyLen = (int) Math.min(size, oldArr.length);
+      for (int i = 0; i < copyLen; i++) {
+        arr[i] = oldArr[i];
+      }
     }
   }
 
