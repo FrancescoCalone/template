@@ -31,9 +31,14 @@ abstract public class LinearVectorBase<Data> extends VectorBase<Data> { // Must 
 
   @Override 
   public void Realloc(Natural newsize) {
-    long size = newsize.ToLong();
-    if (size < 0) throw new IllegalArgumentException("Size negative");
+    long nsize = newsize.ToLong();
+    if (nsize < 0) throw new IllegalArgumentException("Size negative");
+    Data[] oldArr = arr;
     ArrayAlloc(newsize);
+    if (oldArr != null) {
+      int copyLen = (int) Math.min(oldArr.length, arr.length);
+      System.arraycopy(oldArr, 0, arr, 0, copyLen);
+    }
     
   }
 

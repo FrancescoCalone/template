@@ -89,6 +89,11 @@ abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Dat
   long oldSize = size;
   ArrayAlloc(newsize);
   start = 0L;
+  if (oldArr == null) {
+    // nothing to copy
+    size = 0L;
+    return;
+  }
   long copySize = Math.min(oldSize, nsize);
   for (long i = 0; i < copySize; i++) {
     arr[(int)i] = oldArr[(int)((oldStart + i) % oldArr.length)];

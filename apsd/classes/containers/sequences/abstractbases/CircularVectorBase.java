@@ -54,18 +54,18 @@ abstract public class CircularVectorBase<Data> extends VectorBase<Data> {
   /* ************************************************************************ */
 
   @Override
-  public void ShiftLeft(Natural num,Natural pos) {
-    long n = num.ToLong();
+  public void ShiftLeft(Natural pos, Natural num) {
     long p = pos.ToLong();
+    long n = num.ToLong();
     long size = Size().ToLong();
     if (n <= 0 || p < 0 || p >= size) return;
     start = (start + n) % arr.length;
   }
 
   @Override
-  public void ShiftRight(Natural num,Natural pos) { 
-    long n = num.ToLong();
+  public void ShiftRight(Natural pos, Natural num) { 
     long p = pos.ToLong();
+    long n = num.ToLong();
     long size = Size().ToLong();
     if (n <= 0 || p < 0 || p >= size) return;
     start = (start - n + arr.length) % arr.length;

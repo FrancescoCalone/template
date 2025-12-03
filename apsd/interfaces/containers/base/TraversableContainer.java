@@ -16,7 +16,10 @@ public interface TraversableContainer<Data> extends MembershipContainer<Data> { 
 
     default <Acc> Acc FoldForward(Accumulator<Data, Acc> fun, Acc ini) {
        final Box<Acc> acc = new Box<>(ini);
-       if (fun != null) TraverseForward(dat -> { acc.Set(fun.Apply(dat, acc.Get())); return false; });
+         if (fun != null) TraverseForward(dat -> { 
+           if (dat == null) System.out.println("[DEBUG FoldForward] encountered null in " + this.getClass().getName());
+           acc.Set(fun.Apply(dat, acc.Get())); 
+           return false; });
        return acc.Get();
       }
 

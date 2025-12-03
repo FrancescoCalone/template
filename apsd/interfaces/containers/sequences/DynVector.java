@@ -15,6 +15,12 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
   long pos = position.ToLong();
   long size = Size().ToLong();
   if (pos < 0 || pos > size) return;
+  if (pos == size) {
+    // append at end: increase logical size first
+    Expand();
+    SetAt(value, Natural.Of(pos));
+    return;
+  }
   if (size + 1 > Capacity().ToLong()) Grow();
   ShiftRight(Natural.Of(pos), Natural.ONE);
   SetAt(value, Natural.Of(pos));
@@ -31,8 +37,10 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
   long size = Size().ToLong();
   if (pos < 0 || pos >= size) return null;
   Data old = GetAt(Natural.Of(pos));
-  if(pos<size-1) ShiftLeft(Natural.Of(pos), Natural.ONE);
-  RemoveAt(position);
+  if (pos < size - 1) ShiftLeft(Natural.Of(pos), Natural.ONE);
+  // clear physical last element and reduce logical size
+  SetAt(null, Natural.Of(size - 1));
+  Reduce(Natural.ONE);
   return old;
   }
 

@@ -55,7 +55,7 @@ public class WStack<Data> implements Stack<Data> { // Must implement Stack
 
   @Override
   public Data Top() {
-    return lst.GetLast();
+    return lst.IsEmpty() ? null : lst.GetLast();
   }
 
   @Override
