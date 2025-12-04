@@ -213,6 +213,9 @@ public void InsertAt(Data val, Natural index) {
 
   @Override
   public void SetLast(Data data) {
+    if (Size().ToLong() == 0) {
+      throw new IndexOutOfBoundsException("Sequence is empty.");
+    }
     SetAt(data, new Natural(Size().ToLong() - 1));
   }
    

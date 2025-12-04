@@ -39,9 +39,7 @@ abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Dat
     for (long i = sizeLong - len; i < sizeLong; i++) {
       SetAt(null, Natural.Of(i));
     }
-    // NOTE: Do not modify logical size here. Callers (e.g. AtNRemove) perform Reduce()
-    // to update the logical size. Leaving size adjustment here caused double-reductions
-    // when ShiftLeft is used by higher-level removals.
+    Reduce(Natural.Of(len));
   }
 
   // ShiftRight

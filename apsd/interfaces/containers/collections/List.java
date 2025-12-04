@@ -30,7 +30,7 @@ public interface List<Data> extends MutableSequence<Data>, InsertableAtSequence<
   @Override
   default boolean Insert (Data element) {
     if (element == null) throw new NullPointerException("Elemento nullo");
-    InsertLast(element);
+    InsertFirst(element);
     return true;
   }
 

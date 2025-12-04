@@ -71,6 +71,7 @@ abstract public class CircularVectorBase<Data> extends VectorBase<Data> {
     start = (start - n + arr.length) % arr.length;
   }
   
+  
   /* ************************************************************************ */
   /* Specific member functions of Vector                                      */
   /* ************************************************************************ */
