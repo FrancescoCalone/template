@@ -37,7 +37,10 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
   long size = Size().ToLong();
   if (pos < 0 || pos >= size) return null;
   Data old = GetAt(Natural.Of(pos));
-  if (pos < size - 1) ShiftLeft(Natural.Of(pos), Natural.ONE);
+  if (pos < size - 1) {
+    // perform the physical shift without affecting logical size (call Vector default)
+    Vector.super.ShiftLeft(Natural.Of(pos), Natural.ONE);
+  }
   // clear physical last element and reduce logical size
   SetAt(null, Natural.Of(size - 1));
   Reduce(Natural.ONE);
@@ -55,7 +58,9 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
   long n = num.ToLong();
   long size = Size().ToLong();
   if (p < 0 || p >= size || n <= 0) return;
+  // perform the physical shift then update logical size
   Vector.super.ShiftLeft(Natural.Of(p), Natural.Of(n));
+  Reduce(Natural.Of(n));
   }
 
 
@@ -67,7 +72,8 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
   long n = num.ToLong();
   long size = Size().ToLong();
   if (p < 0 || p >= size || n <= 0) return;
-  if (size + n > Capacity().ToLong()) Expand(Natural.Of(n));
+  // Always increase logical size first (Expand will grow capacity if needed)
+  Expand(Natural.Of(n));
   Vector.super.ShiftRight(Natural.Of(p), Natural.Of(n));
   }
   
