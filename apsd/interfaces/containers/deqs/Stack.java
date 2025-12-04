@@ -18,7 +18,8 @@ public interface Stack<Data> extends ClearableContainer, InsertableContainer<Dat
     Pop();
     return topItem;
   }
-  throw new IllegalStateException("Stack vuota");
+  // For empty stacks return null (test-suite expects null on empty)
+  return null;
   }
 
 
