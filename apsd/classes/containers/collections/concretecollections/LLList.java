@@ -1,14 +1,12 @@
 package apsd.classes.containers.collections.concretecollections;
 
-import java.util.Set;
 
 import apsd.classes.containers.collections.concretecollections.bases.LLChainBase;
 import apsd.classes.containers.collections.concretecollections.bases.LLNode;
-import apsd.classes.utilities.Box;
+
 import apsd.classes.utilities.Natural;
 import apsd.interfaces.containers.base.TraversableContainer;
 import apsd.interfaces.containers.collections.List;
-import apsd.interfaces.containers.iterators.ForwardIterator;
 import apsd.interfaces.containers.iterators.MutableBackwardIterator;
 import apsd.interfaces.containers.iterators.MutableForwardIterator;
 import apsd.interfaces.containers.sequences.MutableSequence;
@@ -38,12 +36,12 @@ public class LLList<Data> extends LLChainBase<Data> implements List<Data> {
   protected LLList(long size, LLNode<Data> head, LLNode<Data> tail) {
     super(size, head, tail);
   }
-
-  // NewChain
+ 
   @Override
-  protected LLList<Data> NewChain(LLNode<Data> head1, LLNode<Data> tail1) {
-    return new LLList<>(this.size.ToLong(), head1, tail1);
+  protected LLChainBase<Data> NewChain(long size, LLNode<Data> head1, LLNode<Data> tail1) {
+    return new LLList<>(size, head1, tail1);
   }
+
   /* ************************************************************************ */
   /* Override specific member functions from MutableIterableContainer         */
   /* ************************************************************************ */

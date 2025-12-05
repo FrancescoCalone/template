@@ -49,7 +49,7 @@ abstract public class LLChainBase<Data> implements Chain<Data> { // Must impleme
     this.tailref.Set(tail);
   }
   // NewChain
-  protected abstract LLChainBase<Data> NewChain(LLNode<Data> head1, LLNode<Data> tail1);
+  protected abstract LLChainBase<Data> NewChain(long size, LLNode<Data> head1, LLNode<Data> tail1);
 
   protected MutableForwardIterator<Box<LLNode<Data>>> FRefIterator() {
     return new MutableForwardIterator<Box<LLNode<Data>>>() {
@@ -315,7 +315,7 @@ abstract public class LLChainBase<Data> implements Chain<Data> { // Must impleme
     LLNode<Data> newhead = it.GetCurrent().Get();
     it.Next(Natural.Of(endindex - startindex));
     LLNode<Data> newtail = it.GetCurrent().Get();
-    return NewChain(newhead, newtail);
+    return NewChain(endindex - startindex + 1, newhead, newtail);
   }
 
   /* ************************************************************************ */

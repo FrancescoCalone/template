@@ -31,10 +31,10 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
   }
   // NewChain
   @Override
-  protected LLSortedChain<Data> NewChain(LLNode<Data> head, LLNode<Data> tail) {
-    return new LLSortedChain<>(this.size.ToLong(), head, tail);
-  } 
-
+  protected LLChainBase<Data> NewChain(long size, LLNode<Data> head, LLNode<Data> tail) {
+    return new LLSortedChain<>(size, head, tail);
+  }
+  
   /* ************************************************************************ */
   /* Specific member functions of LLSortedChain                               */
   /* ************************************************************************ */
