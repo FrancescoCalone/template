@@ -73,7 +73,13 @@ abstract public class CircularVectorBase<Data> extends VectorBase<Data> {
     long n = num.ToLong();
     long size = Size().ToLong();
     if (n <= 0 || p < 0 || p >= size) return;
-    start = (start + n) % arr.length;
+    long len = Math.min(n, size - p);
+    for (long i = p; i < size - len; i++) {
+      SetAt(GetAt(Natural.Of(i + len)), Natural.Of(i));
+    }
+    for (long i = size - len; i < size; i++) {
+      SetAt(null, Natural.Of(i));
+    }
   }
 
   @Override
@@ -82,7 +88,14 @@ abstract public class CircularVectorBase<Data> extends VectorBase<Data> {
     long n = num.ToLong();
     long size = Size().ToLong();
     if (n <= 0 || p < 0 || p >= size) return;
-    start = (start - n + arr.length) % arr.length;
+    long len = Math.min(n, size - p);
+    for (long i = size - 1 - len; i >= p; i--) {
+      SetAt(GetAt(Natural.Of(i)), Natural.Of(i + len));
+      SetAt(null, Natural.Of(i));
+    }
+    for (long i = 0; i < len; i++) {
+      SetAt(null, Natural.Of(p + i));
+    }
   }
   
   
