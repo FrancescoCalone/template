@@ -80,17 +80,23 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
   /* ************************************************************************ */
   @Override
   public boolean Insert(Data val){
-      if (PredFind(val) == null) {
-          LLNode<Data> newNode = new LLNode<>(val, headref.Get());
-          headref.Set(newNode);
-          size.Increment();
-          return true;
+      LLNode<Data> pred = PredFind(val);
+      if (pred == null) {
+        LLNode<Data> newNode = new LLNode<>(val, headref.Get());
+        headref.Set(newNode);
+        if (size.ToLong() == 0) {
+        tailref.Set(newNode);
+        }
+        size.Increment();
+        return true;
       } else {
-          LLNode<Data> pred = PredFind(val);
-          LLNode<Data> newNode = new LLNode<>(val, pred.GetNext().Get());
-          pred.SetNext(newNode);
-          size.Increment();
-          return true;
+        LLNode<Data> newNode = new LLNode<>(val, pred.GetNext().Get());
+        pred.SetNext(newNode);
+        if (pred == tailref.Get()) {
+        tailref.Set(newNode);
+        }
+        size.Increment();
+        return true;
       }
   }
 
@@ -172,7 +178,8 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
             right = mid - 1;
         }
     }
-    return Natural.Of(predIndex);
+    if (predIndex == null) return null;
+    return Natural.Of(predIndex.longValue());
   }
 
     @Override
@@ -198,7 +205,8 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
             left = mid + 1;
         }
     }
-    return Natural.Of(sucIndex);
+    if (sucIndex == null) return null;
+    return Natural.Of(sucIndex.longValue());
     }
   
 
