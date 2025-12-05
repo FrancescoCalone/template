@@ -22,10 +22,24 @@ abstract public class CircularVectorBase<Data> extends VectorBase<Data> {
 
   @Override 
   public void Realloc(Natural newsize) {
-    long size = newsize.ToLong();
-    if (size < 0) throw new IllegalArgumentException("Size negative");
+    long nsize = newsize.ToLong();
+    if (nsize < 0) throw new IllegalArgumentException("Size negative");
+    Data[] oldArr = arr;
+    long oldStart = start;
+    int oldLen = (oldArr == null ? 0 : oldArr.length);
     ArrayAlloc(newsize);
-    start = 0L;
+    int newLen = arr.length;
+    if (oldArr == null || oldLen == 0 || newLen == 0) {
+      start = 0L;
+      return;
+    }
+    long copySize = Math.min(oldLen, nsize);
+    for (long k = 0; k < copySize; k++) {
+      int p = (int)((oldStart + k) % oldLen);
+      int q = (int)((oldStart + k) % newLen);
+      arr[q] = oldArr[p];
+    }
+    start = oldStart % newLen;
   }
 
   /* ************************************************************************ */

@@ -45,6 +45,7 @@ abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Dat
   // ShiftRight
   @Override
   public void ShiftRight(Natural pos, Natural num) {
+    System.out.println("[DEBUG DynCircularVectorBase.ShiftRight] pos=" + pos + " num=" + num + " start=" + start + " size=" + size + " cap=" + Capacity());
     if (pos == null || num == null) throw new NullPointerException();
     long len = num.ToLong();
     if (len <= 0) return;

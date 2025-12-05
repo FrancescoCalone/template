@@ -46,31 +46,15 @@ public class VSortedChain<Data extends Comparable<? super Data>> extends VChainB
   
   @Override
   public boolean Insert(Data val){
-    /*if (val == null) {
-        throw new IllegalArgumentException();
+    if (val == null) {
+      throw new IllegalArgumentException();
     }
 
-    Natural index = SearchPredecessor(val);
-
-    if (vec.Size().equals(vec.Capacity())) { 
-        vec.Expand(Natural.ONE);
-    }
-
-    if (index == null) {
-      vec.ShiftFirstRight();
-      vec.InsertFirst(val);
-    } else {
-    if (index.compareTo(new Natural(vec.Capacity().ToLong()/2)) > 0) {
-        vec.ShiftRight(index); 
-    } else {
-        vec.ShiftLeft(index);      
-    }
-    vec.InsertAt(val, index); 
-    }
-
+    // Insert (allow duplicates) at successor of predecessor
+    Natural pred = SearchPredecessor(val);
+    Natural index = pred != null ? pred.Increment() : Natural.ZERO;
+    vec.InsertAt(val, index);
     return true;
-    */
-    return InsertIfAbsent(val);
   }
   
     
@@ -112,6 +96,7 @@ public class VSortedChain<Data extends Comparable<? super Data>> extends VChainB
 
     Natural index = pred != null ? pred.Increment() : Natural.ZERO;
 
+    
     // Delegate to vec.InsertAt which handles capacity and shifting exactly once
     vec.InsertAt(data, index);
 
