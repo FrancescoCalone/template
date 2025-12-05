@@ -53,7 +53,7 @@ abstract public class LLChainBase<Data> implements Chain<Data> { // Must impleme
 
   protected MutableForwardIterator<Box<LLNode<Data>>> FRefIterator() {
     return new MutableForwardIterator<Box<LLNode<Data>>>() {
-      private Box<LLNode<Data>> current = new Box<>(headref.Get());
+      private Box<LLNode<Data>> current = headref;
 
       @Override
       public boolean IsValid() {
@@ -62,7 +62,7 @@ abstract public class LLChainBase<Data> implements Chain<Data> { // Must impleme
 
       @Override
       public void Reset() {
-        current.Set(headref.Get());
+        current = headref;
       }
 
       @Override
@@ -74,7 +74,7 @@ abstract public class LLChainBase<Data> implements Chain<Data> { // Must impleme
       @Override
       public void Next() {
         if (IsValid()) {
-          current.Set(current.Get().GetNext().Get());
+          current = current.Get().GetNext();
         }
       }
 
