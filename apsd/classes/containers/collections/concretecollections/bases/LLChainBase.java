@@ -1,6 +1,5 @@
 package apsd.classes.containers.collections.concretecollections.bases;
 
-import apsd.classes.containers.sequences.Vector;
 import apsd.classes.utilities.Box;
 import apsd.classes.utilities.MutableNatural;
 import apsd.classes.utilities.Natural;

@@ -1,5 +1,3 @@
-  /** Restituisce il minimo elemento (solo ordered, non sorted) */
- 
 package apsd.classes.containers.collections.abstractcollections.bases;
 
 import apsd.interfaces.containers.base.IterableContainer;
@@ -31,95 +29,85 @@ abstract public class WOrderedSetBase<Data extends Comparable<? super Data>, Chn
   /* Override specific member functions from IterableContainer                */
   /* ************************************************************************ */
 
+  //IsEqual
   @Override
-  public boolean IsEqual(IterableContainer<Data> other) {
-    return OrderedSet.super.IsEqual(other);
+  public boolean IsEqual(IterableContainer<Data> con) {
+    return chn.IsEqual(con);
   }
-
 
   /* ************************************************************************ */
   /* Override specific member functions from OrderedSet                       */
   /* ************************************************************************ */
 
+  // Min
   @Override
   public Data Min() {
-    return FoldForward((minSoFar, current) -> {
-      if (minSoFar == null) return current;
-      if (minSoFar.compareTo(current) > 0) {
-        return current;
-      } else {
-        return minSoFar;
-      }
-    }, null);
+    return chn.Min();
   }
 
+  //RemoveMin
   @Override
-  public Data Max() {
-    return FoldForward((maxSoFar, current) -> {
-      if (maxSoFar == null) return current;
-      if (maxSoFar.compareTo(current) < 0) {
-        return current;
-      } else {
-        return maxSoFar;
-      }
-    }, null);
+  public void RemoveMin() {
+    chn.RemoveMin();
   }
 
-  @Override
-  public Data MaxNRemove() {
-    Data maxElem = Max();
-    chn.Remove(maxElem);
-    return maxElem;
-  }
-
+  // MinNRmove
   @Override
   public Data MinNRemove() {
-    Data minElem = Min();
-    chn.Remove(minElem);
-    return minElem;
+    return chn.MinNRemove();
   }
 
+  // Max
   @Override
-  public Data Predecessor(Data element) {
-    return chn.Predecessor(element);
+  public Data Max() {
+    return chn.Max();
   }
 
+  // RemoveMax
   @Override
-  public Data Successor(Data element) {
-    return chn.Successor(element);
+  public void RemoveMax() {
+    chn.RemoveMax();
   }
 
+  // MaxNRmove
   @Override
-  public void RemovePredecessor(Data element) {
-      Data pred = Predecessor(element);
-      if (pred != null) {
-        chn.Remove(pred);
-      }
+  public Data MaxNRemove() {
+    return chn.MaxNRemove();
   }
 
+  // Predecessor
   @Override
-  public void RemoveSuccessor(Data element) {
-      Data succ = Successor(element);
-      if (succ != null) {
-        chn.Remove(succ);
-      }
+  public Data Predecessor(Data data) {
+    return chn.Predecessor(data);
   }
 
+  //RemovePredecessor
   @Override
-  public Data PredecessorNRemove(Data element) {
-      Data pred = Predecessor(element);
-      if (pred != null) {
-        chn.Remove(pred);
-      }
-      return pred;
+  public void RemovePredecessor(Data data) {
+    chn.RemovePredecessor(data);
   }
 
+  //PrecedessorNRemove
   @Override
-  public Data SuccessorNRemove(Data element) {
-      Data succ = Successor(element);
-      if (succ != null) {
-        chn.Remove(succ);
-      }
-      return succ;
+  public Data PredecessorNRemove(Data data) {
+    return chn.PredecessorNRemove(data);
   }
+
+  // Successor
+  @Override
+  public Data Successor(Data data) {
+    return chn.Successor(data);
   }
+
+  // RemoveSuccessor
+  @Override
+  public void RemoveSuccessor(Data data) {
+    chn.RemoveSuccessor(data);
+  }
+
+  // SuccessorNRemove
+  @Override
+  public Data SuccessorNRemove(Data data) {
+    return chn.SuccessorNRemove(data);
+  } 
+}

@@ -1,4 +1,3 @@
-
 package apsd.classes.containers.collections.abstractcollections.bases;
 
 import apsd.classes.utilities.Natural;
@@ -10,44 +9,46 @@ import apsd.interfaces.containers.iterators.ForwardIterator;
 import apsd.interfaces.traits.Predicate;
 
 /** Object: Abstract wrapper set base implementation via chain. */
-abstract public class WSetBase<Data, Chn extends Chain<Data>> implements Set<Data>  { // Must implement Set; Chn must extend Chain
+abstract public class WSetBase<Data, Chn extends Chain<Data>> implements Set<Data> { // Must implement Set; Chn must extend Chain
 
   protected Chn chn;
 
-  public  WSetBase(){
+  // WSetBase
+  public WSetBase() {
     ChainAlloc();
+  }
+
+  public WSetBase(Chn chn) {
+    this.chn = chn;
+  }
+
+  public WSetBase(TraversableContainer<Data> con) {
+    ChainAlloc();
+    if (con != null) {
+      con.TraverseForward(dat -> {
+        chn.InsertIfAbsent(dat); 
+        return false;
+      });
+    }
+  }
+
+  public WSetBase(Chn chn, TraversableContainer<Data> con) {
+    this.chn = chn;
+    if (con != null) {
+      con.TraverseForward(dat ->{
+        chn.InsertIfAbsent(dat); return false;
+      });
+    }
   }
   
-  public  WSetBase(Chain<Data> chn){
-    this.chn = (Chn) chn;
-  }
-
-  public  WSetBase(TraversableContainer<Data> con){
-    ChainAlloc();
-    final Natural initialSize = chn.Size();
-    con.TraverseForward(data -> {
-      chn.InsertIfAbsent(data);
-      return false;
-    });
-  }
-
-
-  public  WSetBase(Chain<Data> chn, TraversableContainer<Data> con){
-    this.chn = (Chn) chn;
-    final Natural initialSize = chn.Size();
-    con.TraverseForward(data -> {
-      chn.InsertIfAbsent(data);
-      return false;
-    });
-  }
-
   // ChainAlloc
-  protected abstract void ChainAlloc();
-
+  abstract protected void ChainAlloc();
   /* ************************************************************************ */
   /* Override specific member functions from Container                        */
   /* ************************************************************************ */
 
+
+  // Size
   @Override
   public Natural Size() {
     return chn.Size();
@@ -57,29 +58,30 @@ abstract public class WSetBase<Data, Chn extends Chain<Data>> implements Set<Dat
   /* Override specific member functions from ClearableContainer               */
   /* ************************************************************************ */
 
+
+  // Clear
   @Override
   public void Clear() {
-    while (!chn.IsEmpty()) {
-      chn.Remove(chn.GetAt(Natural.ZERO));
-    }
+    chn.Clear();
   }
 
   /* ************************************************************************ */
   /* Override specific member functions from InsertableContainer              */
   /* ************************************************************************ */
 
+
+  // Insert
   @Override
   public boolean Insert(Data data) {
-    System.out.println("[DEBUG WSetBase.Insert] before Insert data=" + data + " size=" + (chn==null?"null":chn.Size()));
-    boolean res = chn.InsertIfAbsent(data);
-    System.out.println("[DEBUG WSetBase.Insert] after Insert data=" + data + " result=" + res + " size=" + (chn==null?"null":chn.Size()));
-    return res;
+    return chn.InsertIfAbsent(data);
   }
 
   /* ************************************************************************ */
   /* Override specific member functions from RemovableContainer               */
   /* ************************************************************************ */
 
+
+  // Remove
   @Override
   public boolean Remove(Data data) {
     return chn.Remove(data);
@@ -89,11 +91,14 @@ abstract public class WSetBase<Data, Chn extends Chain<Data>> implements Set<Dat
   /* Override specific member functions from IterableContainer                */
   /* ************************************************************************ */
 
+  // ...
+  // FIterator
   @Override
   public ForwardIterator<Data> FIterator() {
     return chn.FIterator();
   }
 
+  // BIterator
   @Override
   public BackwardIterator<Data> BIterator() {
     return chn.BIterator();
@@ -103,25 +108,19 @@ abstract public class WSetBase<Data, Chn extends Chain<Data>> implements Set<Dat
   /* Override specific member functions from Collection                       */
   /* ************************************************************************ */
 
+  // Filter
   @Override
-  public boolean Filter(Predicate<Data> pred) {
-    return chn.Filter(pred);
+  public boolean Filter(Predicate<Data> fun) {
+    return chn.Filter(fun);
   }
-
   /* ************************************************************************ */
   /* Override specific member functions from Set                              */
   /* ************************************************************************ */
 
-  public Set<Data> Intersection(Set<Data> other, Set<Data> result) {
-    ForwardIterator<Data> it = other.FIterator();
-    while (it.IsValid()) {
-      Data val = it.GetCurrent();
-      if (this.Exists(val)) {
-        result.Insert(val);
-      }
-      it.Next();
-    }
-    return result;
+  // Intersection
+  @Override
+  public void Intersection(Set<Data> other) {
+    chn.Intersection(other);
   }
 
 }

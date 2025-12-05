@@ -33,7 +33,6 @@ public class DynCircularVector<Data> extends DynCircularVectorBase<Data> {
   // NewVector
   @Override
   protected void NewVector(Data[] arr1) {
-    ArrayAlloc(Natural.Of(arr1.length));
-    System.arraycopy(arr1, 0, arr, 0, arr1.length);
+   new DynCircularVector<>(arr1);
   }
 }

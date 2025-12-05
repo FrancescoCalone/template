@@ -66,43 +66,28 @@ public class VSortedChain<Data extends Comparable<? super Data>> extends VChainB
   
   @Override
   public boolean InsertIfAbsent(Data data) {
-    if (data == null) {
-        throw new IllegalArgumentException();
+    if (data == null) return false;
+    if (vec.Size().ToLong() == 0) {
+      vec.Expand(Natural.ONE);
+      vec.SetAt(data, Natural.ZERO);
+      return true;
     }
-
-    System.out.println("[DEBUG VSortedChain.InsertIfAbsent] before Search/Insert data=" + data + " size=" + this.Size());
-
-    // Avoid calling SortedSequence.Search directly (it may compute Size()-1 and throw for empty)
     Natural pred = SearchPredecessor(data);
-    // Check whether the element already exists at successor position
-    if (pred != null) {
-      Natural pos = pred.Increment();
-      if (pos.ToLong() < vec.Size().ToLong()) {
-        Data curr = vec.GetAt(pos);
-        if (curr != null && curr.compareTo(data) == 0) {
-          System.out.println("[DEBUG VSortedChain.InsertIfAbsent] data exists: " + data + " size=" + this.Size());
-          return false;
-        }
-      }
+    Natural pos;
+    if (pred == null) {
+      pos = Natural.ZERO;
     } else {
-      if (vec.Size().ToLong() > 0) {
-        Data curr0 = vec.GetAt(Natural.ZERO);
-        if (curr0 != null && curr0.compareTo(data) == 0) {
-          System.out.println("[DEBUG VSortedChain.InsertIfAbsent] data exists: " + data + " size=" + this.Size());
-          return false;
-        }
-      }
+      Data predData = GetAt(pred);
+      int cmp = predData.compareTo(data);
+      if (cmp == 0) return false; 
+      pos = pred.Increment(); 
     }
-
-    Natural index = pred != null ? pred.Increment() : Natural.ZERO;
-
-    
-    // Delegate to vec.InsertAt which handles capacity and shifting exactly once
-    vec.InsertAt(data, index);
-
-    System.out.println("[DEBUG VSortedChain.InsertIfAbsent] after Insert data=" + data + " size=" + this.Size());
-
-    return true;
+    if (pos.ToLong() < vec.Size().ToLong()) {
+      Data atPos = vec.GetAt(pos);
+      if (atPos.compareTo(data) == 0) return false;
+    }
+    vec.InsertAt(data, pos);
+    return true; 
 
   }
 

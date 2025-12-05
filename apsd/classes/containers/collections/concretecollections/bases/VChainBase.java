@@ -63,15 +63,11 @@ abstract public class VChainBase<Data> implements Chain<Data> { // Must implemen
 
   @Override
   public boolean Remove(Data data) {
-   final ForwardIterator<Data> it = vec.FIterator(); 
-    while (it.IsValid()) {
-      if (it.GetCurrent().equals(data)) {
-          RemoveOccurrences(data);
-          return true;
-      }
-      it.Next();
-    }
-    return false;
+   if (data == null) return false;
+    Natural pos = vec.Search(data);
+    if (pos == null) return false;
+    vec.ShiftLeft(pos);
+    return true;
   }
   /* ************************************************************************ */
   /* Override specific member functions from IterableContainer                */

@@ -37,7 +37,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
       long mid = (left + right) / 2;
       Data midVal = GetAt(Natural.Of(mid));
       int cmp = midVal.compareTo(element);
-      if (cmp==0) {
+      if (cmp > 0) {
         ans = mid;
         right = mid - 1;
       } else {
@@ -130,7 +130,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
   @Override
   default Data Successor(Data element) {
       Natural index = SearchSuccessor(element);
-      if (index.ToLong() == -1) return null;
+      if (index == null) return null;
       return GetAt(index);
   }
 
