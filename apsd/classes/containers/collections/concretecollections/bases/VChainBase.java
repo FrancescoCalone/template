@@ -6,7 +6,6 @@ import apsd.interfaces.containers.base.TraversableContainer;
 import apsd.interfaces.containers.collections.Chain;
 import apsd.interfaces.containers.iterators.BackwardIterator;
 import apsd.interfaces.containers.iterators.ForwardIterator;
-import apsd.interfaces.containers.iterators.MutableForwardIterator;
 import apsd.interfaces.containers.sequences.DynVector;
 import apsd.interfaces.containers.sequences.Sequence;
 import apsd.interfaces.traits.Predicate;
@@ -118,13 +117,15 @@ abstract public class VChainBase<Data> implements Chain<Data> { // Must implemen
   @Override
   public boolean Filter(Predicate<Data> pred) {
     boolean changed = false;
-    MutableForwardIterator<Data> it = vec.FIterator();
-    while (it.IsValid()) {
-      if (!pred.Apply(it.GetCurrent())) {
-        Remove(it.GetCurrent());
+    long i = 0;
+    while (i < vec.Size().ToLong()) {
+      Data cur = vec.GetAt(Natural.Of(i));
+      if (!pred.Apply(cur)) {
+        vec.AtNRemove(Natural.Of(i));
         changed = true;
+        // do not increment i, elements shifted left
       } else {
-        it.Next();
+        i++;
       }
     }
     return changed;
