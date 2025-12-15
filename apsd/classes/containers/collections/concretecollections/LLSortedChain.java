@@ -132,27 +132,29 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
 
   @Override
   public Natural Search(Data val) {
-    LLNode<Data> pred = PredFind(val);
-    LLNode<Data> suc = PredSucFind(val);                
-    if (pred != null && pred.Get().equals(val)) {
-      long index = 0;
-      LLNode<Data> current = headref.Get();
-      while (current != null && !current.Get().equals(val)) {
-        current = current.GetNext().Get();
-        index++;
+    if (val == null) throw new IllegalArgumentException("Value nullo");
+    if (headref.Get() == null) return null;
+    long left = 0;
+    long right = size.ToLong() - 1;
+    while (left <= right) {
+      long mid = (left + right) / 2;
+      LLNode<Data> midNode = headref.Get();
+      for (long i = 0; i < mid; i++) {
+        if (midNode == null) break;
+        midNode = midNode.GetNext().Get();
       }
-      return Natural.Of(index);
-    } else if (suc != null && suc.Get().equals(val)) {
-      long index = 0;
-      LLNode<Data> current = headref.Get();
-      while (current != null && !current.Get().equals(val)) {
-        current = current.GetNext().Get();
-        index++;
+      if (midNode == null) break;
+      Comparable<? super Data> cmp = (Comparable<? super Data>) midNode.Get();
+      int res = cmp.compareTo(val);
+      if (res == 0) {
+        return Natural.Of(mid);
+      } else if (res < 0) {
+        left = mid + 1;
+      } else {
+        right = mid - 1;
       }
-      return Natural.Of(index);
-    } else {
-      return null;
     }
+    return null;
   }
 
   @Override
