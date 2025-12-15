@@ -19,7 +19,6 @@ public interface Queue<Data> extends ClearableContainer, InsertableContainer<Dat
     return value;
    }
    else{
-    // For empty queues return null (test-suite expects null on empty)
     return null;
   }
   }

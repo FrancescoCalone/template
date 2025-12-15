@@ -192,7 +192,7 @@ public void InsertAt(Data val, Natural index) {
   } else {
     LLNode<Data> prev = headref.Get();
     for (long i = 0; i < index.ToLong() - 1; i++) {
-      if (prev == null) return; // sicurezza contro loop
+      if (prev == null) return; 
       prev = prev.GetNext().Get();
     }
     newNode.SetNext(prev.GetNext().Get());

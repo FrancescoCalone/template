@@ -72,8 +72,9 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
 
   protected LLNode<Data> PredSucFind(Data val) {
     LLNode<Data> pred = PredFind(val);
-    if (pred == null) return null;
-    return pred.GetNext().Get();
+    LLNode<Data> predNode = (pred == null) ? headref.Get() : pred.GetNext().Get();
+    if (predNode == null) return null;
+    return predNode.GetNext().Get();
   }
   /* ************************************************************************ */
   /* Override specific member functions from InsertableContainer              */
@@ -248,6 +249,7 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
     if (size.ToLong() == 0) {
       tailref.Set(null);
     }
+    
   }
   
     @Override

@@ -8,18 +8,6 @@ public interface List<Data> extends MutableSequence<Data>, InsertableAtSequence<
 
  // SubList
  default List<Data> SubList(Natural start, Natural end){
-   /*  if (start == null || end == null) throw new NullPointerException("Indici null");
-    long s = start.ToLong();
-    long e = end.ToLong();
-    if (s > e || e >= Size().ToLong()) throw new IndexOutOfBoundsException("Intervallo non valido: ["+s+","+e+"] size="+Size().ToLong());
-    for (long i = Size().ToLong(); i > 0; --i) {
-      long idx = i - 1;
-      if (idx < s || idx > e) {
-        RemoveAt(Natural.Of(idx));
-      }
-    }
-    return this;
-  } */
   return (List<Data>) Chain.super.SubChain(start, end);
  }
 

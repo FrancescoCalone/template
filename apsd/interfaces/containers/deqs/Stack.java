@@ -18,7 +18,6 @@ public interface Stack<Data> extends ClearableContainer, InsertableContainer<Dat
     Pop();
     return topItem;
   }
-  // For empty stacks return null (test-suite expects null on empty)
   return null;
   }
 

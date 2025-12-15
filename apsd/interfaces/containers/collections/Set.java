@@ -19,7 +19,7 @@ public interface Set<Data> extends Collection<Data>{ // Must extend Collection
   // Difference
   default void Difference(Set<Data> other){
     if (other == null) return;
-    if (other == this) { // difference with self => empty set
+    if (other == this) { 
       Clear();
       return;
     }

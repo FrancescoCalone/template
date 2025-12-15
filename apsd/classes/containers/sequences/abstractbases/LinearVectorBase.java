@@ -59,7 +59,7 @@ abstract public class LinearVectorBase<Data> extends VectorBase<Data> { // Must 
   @Override
   public void SetAt(Data element, Natural position) {
     long pos = ExcIfOutOfBound(position);
-    arr[(int) pos] = element; //gay
+    arr[(int) pos] = element; 
   }
 
 }

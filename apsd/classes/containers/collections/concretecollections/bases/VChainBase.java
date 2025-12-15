@@ -119,7 +119,6 @@ abstract public class VChainBase<Data> implements Chain<Data> { // Must implemen
       if (!pred.Apply(cur)) {
         vec.AtNRemove(Natural.Of(i));
         changed = true;
-        // do not increment i, elements shifted left
       } else {
         i++;
       }
