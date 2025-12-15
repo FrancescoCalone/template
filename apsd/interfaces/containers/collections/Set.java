@@ -19,6 +19,10 @@ public interface Set<Data> extends Collection<Data>{ // Must extend Collection
   // Difference
   default void Difference(Set<Data> other){
     if (other == null) return;
+    if (other == this) { // difference with self => empty set
+      Clear();
+      return;
+    }
     other.TraverseForward(dat -> {
       if (dat != null && Exists(dat)) {
         Remove(dat);

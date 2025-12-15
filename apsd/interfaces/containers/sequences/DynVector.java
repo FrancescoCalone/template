@@ -11,10 +11,11 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
 
   @Override
   default void InsertAt(Data value, Natural position){
-  if (value == null || position == null) return;
+  if (value == null) throw new IllegalArgumentException("Value nullo");
+  if (position == null) throw new IndexOutOfBoundsException("Index out of bounds.");
   long pos = position.ToLong();
   long size = Size().ToLong();
-  if (pos < 0 || pos > size) return;
+  if (pos < 0 || pos > size) throw new IndexOutOfBoundsException("Index out of bounds.");
   if (pos == size) {
     // append at end: increase logical size first
     Expand();
@@ -32,10 +33,10 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
 
   @Override
   default Data AtNRemove(Natural position) {
-  if (position == null) return null;
+  if (position == null) throw new IndexOutOfBoundsException("Index out of bounds.");
   long pos = position.ToLong();
   long size = Size().ToLong();
-  if (pos < 0 || pos >= size) return null;
+  if (pos < 0 || pos >= size) throw new IndexOutOfBoundsException("Index out of bounds.");
   Data old = GetAt(Natural.Of(pos));
   if (pos < size - 1) {
     // perform the physical shift without affecting logical size (call Vector default)

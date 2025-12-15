@@ -24,18 +24,19 @@ public interface SortedSequence<Data extends Comparable<? super Data>> extends S
   default Natural Search(Data value) {
     if (value == null) throw new IllegalArgumentException("Value nullo");
     if (Size().IsZero()) return null;
-    Natural left = Natural.Of(0);
-    Natural right = Natural.Of(Size().ToLong() - 1);
-    while (left.ToLong() <= right.ToLong()) {
-      Natural mid = Natural.Of((left.ToLong() + right.ToLong()) / 2);
-      Data midValue = GetAt(mid);
+    long left = 0L;
+    long right = Size().ToLong() - 1L;
+    while (left <= right) {
+      long mid = (left + right) / 2L;
+      Natural midNat = Natural.Of(mid);
+      Data midValue = GetAt(midNat);
       int cmp = midValue.compareTo(value);
       if (cmp == 0) {
-        return mid;
+        return midNat;
       } else if (cmp < 0) {
-        left = Natural.Of(mid.ToLong() + 1);
+        left = mid + 1L;
       } else {
-        right = Natural.Of(mid.ToLong() - 1);
+        right = mid - 1L;
       }
     }
     return null;
