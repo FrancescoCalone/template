@@ -41,7 +41,7 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
   }
 
   // NewVector
-  protected abstract void  NewVector(Data[] arr1);
+  protected abstract VectorBase<Data>  NewVector(Data[] arr1);
 
 
   @SuppressWarnings("unchecked")
@@ -181,12 +181,20 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
 
   @Override
   public MutableSequence<Data> SubSequence(Natural start, Natural end) {
-  long s = (start == null ? -1 : start.ToLong());
-  long e = (end == null ? -1 : end.ToLong());
-  long n = Size().ToLong();
-  if (s < 0 || e < 0 || s > e || e >= n) return null;
-    Vector<Data> sub = Vector.super.SubVector(start, end);
-    return (MutableSequence<Data>) sub;
-  }
+    long n = Size().ToLong();
+    long s = (start == null ? 0L : start.ToLong());
+    long e = (end == null ? (n > 0 ? n - 1 : -1) : end.ToLong());
 
+    if (s < 0 || e < 0 || s > e || e >= n) return null;
+    int count=0;
+    int len = (int) (e - s + 1);
+    Data[] slice= (Data[]) new Object[len];
+    for (int i = (int) s; i <= (int) e; i++) {
+      slice[count] = GetAt(Natural.Of(i));
+      count++;
+    }
+
+    return NewVector(slice);
+  }
 }
+

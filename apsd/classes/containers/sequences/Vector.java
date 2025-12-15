@@ -8,7 +8,6 @@ import apsd.interfaces.containers.base.TraversableContainer;
 public class Vector<Data> extends LinearVectorBase<Data> { // Must extend LinearVectorBase
 
   // public Vector()
-  
   public Vector() {
     super();
   }
@@ -25,13 +24,13 @@ public class Vector<Data> extends LinearVectorBase<Data> { // Must extend Linear
 
   // protected Vector(Data[] arr)
   protected Vector(Data[] arr) {
-   super(arr);
+    super(arr);
   }
 
   // NewVector
   @Override
-  protected void NewVector(Data[] arr) {
-    this.arr = arr;
+  protected Vector<Data> NewVector(Data[] arr) {
+    return new Vector<>(arr);
   }
 
 }

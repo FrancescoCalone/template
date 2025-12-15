@@ -28,9 +28,9 @@ public class DynVector<Data> extends DynLinearVectorBase<Data> {
 
   // NewVector
   @Override
-  protected void NewVector(Data[] arr1) {
-    ArrayAlloc(Natural.Of(arr1.length));
-    System.arraycopy(arr1, 0, arr, 0, arr1.length);
+  protected DynVector<Data> NewVector(Data[] arr1) {
+    DynVector<Data> vec = new DynVector<>(arr1);
+    return vec;
   }
 
 }

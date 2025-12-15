@@ -23,7 +23,6 @@ abstract public class CircularVectorBase<Data> extends VectorBase<Data> {
   @Override 
   public void Realloc(Natural newsize) {
     long nsize = newsize.ToLong();
-    if (nsize < 0) throw new IllegalArgumentException("Size negative");
     Data[] oldArr = arr;
     long oldStart = start;
     int oldLen = (oldArr == null ? 0 : oldArr.length);

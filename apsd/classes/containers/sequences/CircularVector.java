@@ -1,6 +1,7 @@
 package apsd.classes.containers.sequences;
 
 import apsd.classes.containers.sequences.abstractbases.CircularVectorBase;
+import apsd.classes.containers.sequences.abstractbases.VectorBase;
 import apsd.classes.utilities.Natural;
 import apsd.interfaces.containers.base.TraversableContainer;
 
@@ -31,8 +32,7 @@ public class CircularVector<Data> extends CircularVectorBase<Data> {
 
   // NewVector
   @Override
-  protected void NewVector(Data[] arr1) {
-    ArrayAlloc(Natural.Of(arr1.length));
-    System.arraycopy(arr1, 0, arr, 0, arr1.length); 
+  protected VectorBase<Data> NewVector(Data[] arr1) {
+    return new CircularVector<>(arr1);
 }
   }

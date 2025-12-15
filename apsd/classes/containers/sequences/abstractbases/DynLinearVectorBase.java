@@ -16,13 +16,12 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
       this.size = con.Size().ToLong();
     }
   }
-
   public DynLinearVectorBase() {
     super();
   }
-
   public DynLinearVectorBase(Natural size) {
     super(size);
+    this.size = size.ToLong();
   }
   
   public DynLinearVectorBase(Data[] arr) {
@@ -32,7 +31,7 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
 
   public void ArrayAlloc(Natural newcapacity) {
     long capacity = newcapacity.ToLong();
-    if (capacity < 0) throw new IllegalArgumentException("Capacity negative");
+
     super.ArrayAlloc(newcapacity);
   }
   /* ************************************************************************ */
