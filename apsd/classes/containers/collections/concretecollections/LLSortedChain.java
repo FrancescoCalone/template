@@ -134,7 +134,7 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
 
   @Override
   public Natural Search(Data val) {
-    if (val == null) throw new IllegalArgumentException("Value nullo");
+    if (val == null) return null;
     if (headref.Get() == null) return null;
     long left = 0;
     long right = size.ToLong() - 1;

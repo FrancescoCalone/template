@@ -11,6 +11,7 @@ public interface Chain<Data> extends RemovableAtSequence<Data>,Set<Data> {
 
   // InsertIfAbsent
   default boolean InsertIfAbsent(Data item) {
+    if (item == null) return false;
     if (Exists(item)) return false;
     Insert(item);
     return true;

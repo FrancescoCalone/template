@@ -8,7 +8,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
 
   // SearchPredecessor
   default Natural SearchPredecessor(Data element) {
-    if (element == null) throw new IllegalArgumentException("Value nullo");
+    if (element == null) return null;
     long n = Size().ToLong();
     long left = 0, right = n - 1;
     long ans = -1; 
@@ -29,7 +29,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
 
   // SearchSuccessor
   default Natural SearchSuccessor(Data element) {
-    if (element == null) throw new IllegalArgumentException("Value nullo");
+    if (element == null) return null;
     long n = Size().ToLong();
     long left = 0, right = n - 1;
     long ans = -1; 
@@ -53,7 +53,7 @@ public interface SortedChain<Data extends Comparable<? super Data>> extends Orde
   /* ************************************************************************ */
   @Override
   default Natural Search(Data value) {
-    if (value == null) throw new IllegalArgumentException("Value nullo");
+    if (value == null) return null;
     return SortedSequence.super.Search(value);
   }
 
