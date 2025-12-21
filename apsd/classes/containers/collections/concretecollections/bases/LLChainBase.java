@@ -392,16 +392,19 @@ abstract public class LLChainBase<Data> implements Chain<Data> { // Must impleme
   
   @Override
   public boolean Filter(Predicate<Data> pred) {
+    if (pred == null) return false;
     boolean changed = false;
     final MutableForwardIterator<Box<LLNode<Data>>> it = FRefIterator();
+    final Box<LLNode<Data>> prd = new Box<>();
     while (it.IsValid()) {
       LLNode<Data> node = it.GetCurrent().Get();
       if (!pred.Apply(node.Get())) {
         it.GetCurrent().Set(node.GetNext().Get());
-        if (tailref.Get() == node) { tailref.Set(null); }
+        if (tailref.Get() == node) { tailref.Set(prd.Get()); }
         size.Decrement();
         changed = true;
       } else {
+        prd.Set(node);
         it.Next();
       }
     }

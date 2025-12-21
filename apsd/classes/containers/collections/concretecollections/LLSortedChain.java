@@ -106,19 +106,19 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
   /* Override specific member functions from RemovableContainer               */
   /* ************************************************************************ */
   
-  @Override
-  public boolean Remove(Data val){
+    @Override
+    public boolean Remove(Data val){
       LLNode<Data> pred = PredFind(val);
       LLNode<Data> suc = PredSucFind(val);
       if(Search(val)==null) return false;
       if(pred==null){
-          headref.Set(suc);
+        headref.Set(suc);
       }else{
-          pred.SetNext(suc);
+        pred.SetNext(suc);
       }
       size.Decrement();
-          return true;
-  }
+        return true;
+    }
   
 
   /* ************************************************************************ */
@@ -130,6 +130,7 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
   /* ************************************************************************ */
   /* Override specific member functions from SortedSequence                   */
   /* ************************************************************************ */
+
 
   @Override
   public Natural Search(Data val) {

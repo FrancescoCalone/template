@@ -112,6 +112,7 @@ abstract public class VChainBase<Data> implements Chain<Data> { // Must implemen
 
   @Override
   public boolean Filter(Predicate<Data> pred) {
+    if (pred == null) return false;
     boolean changed = false;
     long i = 0;
     while (i < vec.Size().ToLong()) {

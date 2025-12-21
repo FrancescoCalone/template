@@ -33,7 +33,8 @@ public interface Set<Data> extends Collection<Data>{ // Must extend Collection
 
   // Intersection
   default void Intersection(Set<Data> other){
-    Filter(dat->other.Exists(dat));
+    if (other == null) return;
+    Filter(dat -> other.Exists(dat));
   }
 
   /* ************************************************************************ */
