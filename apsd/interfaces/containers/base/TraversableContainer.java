@@ -15,17 +15,23 @@ public interface TraversableContainer<Data> extends MembershipContainer<Data> { 
     boolean TraverseBackward(Predicate<Data> fun);
 
     default <Acc> Acc FoldForward(Accumulator<Data, Acc> fun, Acc ini) {
+       if (ini == null) throw new NullPointerException("Initial accumulator cannot be null!");
        final Box<Acc> acc = new Box<>(ini);
-         if (fun != null) TraverseForward(dat -> {
-           acc.Set(fun.Apply(dat, acc.Get()));
-           return false; });
+       if (fun != null) TraverseForward(dat -> {
+         acc.Set(fun.Apply(dat, acc.Get()));
+         return false;
+       });
        return acc.Get();
       }
 
   // FoldBackward
     default <Acc> Acc FoldBackward (Accumulator<Data, Acc> fun, Acc ini) {
+       if (ini == null) throw new NullPointerException("Initial accumulator cannot be null!");
        final Box<Acc> acc = new Box<>(ini);
-       if (fun != null) TraverseBackward(dat -> { acc.Set(fun.Apply(dat, acc.Get())); return false; });
+       if (fun != null) TraverseBackward(dat -> {
+         acc.Set(fun.Apply(dat, acc.Get()));
+         return false;
+       });
        return acc.Get();
       }
 

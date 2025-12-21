@@ -9,7 +9,7 @@ public interface Sequence<Data> extends IterableContainer<Data> {
   
   // GetAt
   default Data GetAt(Natural num){
-    if(IsEmpty()) throw new IndexOutOfBoundsException("Sequence vuota!");
+    if (num == null) throw new NullPointerException("Natural number cannot be null!");
     long idx = ExcIfOutOfBound(num);
     ForwardIterator<Data> it = FIterator();
     it.Next(Natural.Of(idx));
