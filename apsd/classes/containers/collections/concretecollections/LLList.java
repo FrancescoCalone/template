@@ -222,6 +222,7 @@ public void InsertAt(Data val, Natural index) {
     if(index.ToLong()<0 || index.ToLong()>=this.Size().ToLong()){
         throw new IndexOutOfBoundsException("Index out of bounds.");
     }
+    if (data == null) return;
     LLNode<Data> current = headref.Get();
     for (long i = 0; i < index.ToLong(); i++) {
       current = current.GetNext().Get();

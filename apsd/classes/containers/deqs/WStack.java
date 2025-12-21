@@ -20,14 +20,22 @@ public class WStack<Data> implements Stack<Data> { // Must implement Stack
   }
 
   public WStack(TraversableContainer<Data> con){
-    lst = new VList<Data>(con);
+    lst = new VList<Data>();
+    if (con != null) {
+      con.TraverseForward(data -> {
+        lst.InsertAt(data, Natural.ZERO);
+        return false;
+      });
+    }
   }
   public WStack(List<Data> lst, TraversableContainer<Data> con){ 
     this.lst = lst;
-    con.TraverseForward(data -> {
-      lst.InsertAt(data, lst.Size());
-      return false;
-    });
+    if (con != null) {
+      con.TraverseForward(data -> {
+        lst.InsertAt(data, Natural.ZERO);
+        return false;
+      });
+    }
   }
 
   /* ************************************************************************ */

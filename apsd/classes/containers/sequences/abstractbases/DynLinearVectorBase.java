@@ -59,6 +59,7 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
 
   @Override 
   public void Realloc(Natural newsize) {
+    if (newsize == null) return;
     long nsize = newsize.ToLong();
     Data[] oldArr = arr;
     if (nsize < 0) throw new IllegalArgumentException("Size negative");
@@ -96,9 +97,7 @@ abstract public class DynLinearVectorBase<Data> extends LinearVectorBase<Data> i
     if (n > size) throw new IllegalArgumentException("Size to reduce exceeds current size");
     long newsize = size - n;
     size = newsize;
-    if (Capacity().ToLong() > size * 4) {
     Shrink();
   }
 
-}
 }

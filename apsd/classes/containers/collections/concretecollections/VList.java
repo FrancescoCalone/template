@@ -57,6 +57,7 @@ public class VList<Data> extends VChainBase<Data> implements List<Data> {
     if(index.ToLong()<0 || index.ToLong()>=vec.Size().ToLong()){
         throw new IndexOutOfBoundsException("Index out of bounds.");
     }
+    if (val == null) return;
     vec.SetAt(val, index);
   }
 
