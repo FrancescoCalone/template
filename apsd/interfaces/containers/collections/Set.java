@@ -44,14 +44,19 @@ public interface Set<Data> extends Collection<Data>{ // Must extend Collection
   @Override
   default boolean IsEqual(IterableContainer<Data> other){
     if (other == null) return false;
-    if (Size() == null || other.Size() == null) return false;
-    if (Size().ToLong() != other.Size().ToLong()) return false;
     var itThis = FIterator();
     if (itThis == null) return false;
     while (itThis.IsValid()) {
       Data a = itThis.DataNNext();
       if (!other.Exists(a)) return false;
     }
+    var itOther = other.FIterator();
+    if (itOther == null) return false;
+    while (itOther.IsValid()) {
+      Data b = itOther.DataNNext();
+      if (!Exists(b)) return false;
+    }
+
     return true;
   }
 

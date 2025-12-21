@@ -115,19 +115,34 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
   /* Override specific member functions from RemovableContainer               */
   /* ************************************************************************ */
   
-    @Override
-    public boolean Remove(Data val){
-      LLNode<Data> pred = PredFind(val);
-      LLNode<Data> suc = PredSucFind(val);
-      if(Search(val)==null) return false;
-      if(pred==null){
-        headref.Set(suc);
-      }else{
-        pred.SetNext(suc);
-      }
-      size.Decrement();
-        return true;
+  @Override
+  public boolean Remove(Data val){
+    if (Search(val) == null) return false;
+
+    LLNode<Data> pred = PredFind(val);
+    LLNode<Data> suc = PredSucFind(val);
+
+    if (pred == null) {
+      // rimozione in testa
+      headref.Set(suc);
+    } else {
+      // rimozione in mezzo o in coda
+      pred.SetNext(suc);
     }
+
+    // se non c'è successore abbiamo tolto l'ultimo nodo: aggiorna tailref
+    if (suc == null) {
+      tailref.Set(pred);
+    }
+
+    // lista eventualmente vuota: assicura coerenza di tailref
+    if (headref.Get() == null) {
+      tailref.Set(null);
+    }
+
+    size.Decrement();
+    return true;
+  }
   
 
   /* ************************************************************************ */
