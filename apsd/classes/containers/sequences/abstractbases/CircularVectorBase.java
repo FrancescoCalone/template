@@ -22,6 +22,7 @@ abstract public class CircularVectorBase<Data> extends VectorBase<Data> {
 
   @Override 
   public void Realloc(Natural newsize) {
+    if (newsize == null) return;
     long nsize = newsize.ToLong();
     Data[] oldArr = arr;
     long oldStart = start;

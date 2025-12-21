@@ -31,6 +31,7 @@ abstract public class LinearVectorBase<Data> extends VectorBase<Data> { // Must 
 
   @Override 
   public void Realloc(Natural newsize) {
+    if (newsize == null) return;
     long nsize = newsize.ToLong();
     if (nsize < 0) throw new IllegalArgumentException("Size negative");
     Data[] oldArr = arr;

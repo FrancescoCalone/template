@@ -82,6 +82,7 @@ abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Dat
 
   @Override 
   public void Realloc(Natural newsize) {
+  if (newsize == null) return;
   long nsize = newsize.ToLong();
   if (nsize < 0) throw new IllegalArgumentException("Size negative");
   Data[] oldArr = arr;
@@ -125,7 +126,7 @@ abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Dat
         long newsize = size - n;
         if (newsize < 0) throw new IllegalArgumentException("Size negative");
         size = newsize;
-      if (Capacity().ToLong() > size * 4) {
+          if (Capacity().ToLong() >= size * 4) {
         Shrink();
       }
     }

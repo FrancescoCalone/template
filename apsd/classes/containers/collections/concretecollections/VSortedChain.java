@@ -46,9 +46,7 @@ public class VSortedChain<Data extends Comparable<? super Data>> extends VChainB
   
   @Override
   public boolean Insert(Data val){
-    if (val == null) {
-      throw new IllegalArgumentException();
-    }
+    if (val == null) return false;
 
     // Insert (allow duplicates) at successor of predecessor
     Natural pred = SearchPredecessor(val);

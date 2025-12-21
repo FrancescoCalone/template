@@ -65,7 +65,7 @@ public class VList<Data> extends VChainBase<Data> implements List<Data> {
   /* ************************************************************************ */
   @Override
   public void InsertAt( Data val, Natural index) {
-    if(index == null) throw new IndexOutOfBoundsException("Index out of bounds.");
+    if(index == null) throw new NullPointerException();
     vec.InsertAt(val, index);
 }
 }
