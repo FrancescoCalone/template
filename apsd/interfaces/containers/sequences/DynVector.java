@@ -11,8 +11,8 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
 
   @Override
   default void InsertAt(Data value, Natural position){
-  if (value == null) throw new IllegalArgumentException("Value nullo");
-  if (position == null) throw new IndexOutOfBoundsException("Index out of bounds.");
+  if (value == null) return;
+  if (position == null) throw new NullPointerException();
   long pos = position.ToLong();
   long size = Size().ToLong();
   if (pos < 0 || pos > size) throw new IndexOutOfBoundsException("Index out of bounds.");
@@ -32,7 +32,7 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
 
   @Override
   default Data AtNRemove(Natural position) {
-  if (position == null) throw new IndexOutOfBoundsException("Index out of bounds.");
+  if (position == null) throw new NullPointerException();
   long pos = position.ToLong();
   long size = Size().ToLong();
   if (pos < 0 || pos >= size) throw new IndexOutOfBoundsException("Index out of bounds.");
@@ -51,7 +51,7 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
 
   @Override
   default void ShiftLeft(Natural pos, Natural num) {
-  if (pos == null || num == null) return;
+  if (pos == null || num == null) throw new NullPointerException();
   long p = pos.ToLong();
   long n = num.ToLong();
   long size = Size().ToLong();
@@ -64,7 +64,7 @@ public interface DynVector<Data> extends ResizableContainer, InsertableAtSequenc
 
   @Override
   default void ShiftRight(Natural pos, Natural num) {
-  if (pos == null || num == null) return;
+  if (pos == null || num == null) throw new NullPointerException();
   long p = pos.ToLong();
   long n = num.ToLong();
   long size = Size().ToLong();

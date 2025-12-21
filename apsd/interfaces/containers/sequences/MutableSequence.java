@@ -49,18 +49,9 @@ public interface MutableSequence<Data> extends Sequence<Data>, MutableIterableCo
 
   // Swap
   default void Swap(Natural pos1, Natural pos2){
-    long index1=ExcIfOutOfBound(pos1);
-    long index2=ExcIfOutOfBound(pos2);
-    if(index1==index2) return;
-    MutableForwardIterator<Data> it = FIterator();
-    it.Next(Natural.Of(Math.min(index1, index2)));
-    Data val1 = (Data) it.GetCurrent();
-    it.Next(Natural.Of(Math.abs(index2 - index1)));
-    Data val2 = (Data)it.GetCurrent();
-    it.SetCurrent(val1);
-    it = FIterator();
-    it.Next(Natural.Of(Math.min(index1, index2)));
-    it.SetCurrent(val2);
+   Data temp = GetAt(pos1);
+   SetAt(GetAt(pos2), pos1);
+   SetAt(temp, pos2);
   }
 
 

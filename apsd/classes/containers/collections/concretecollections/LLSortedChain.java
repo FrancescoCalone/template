@@ -230,26 +230,24 @@ public class LLSortedChain<Data extends Comparable<? super Data>> extends LLChai
   @Override
   public void RemoveOccurrences(Data val) {
     if (val == null || headref.Get() == null) return;
-    LLNode<Data> dummy = new LLNode<>(null, headref.Get());
-    LLNode<Data> prev = dummy;
-    LLNode<Data> curr = headref.Get();
-    while (curr != null && curr.Get().compareTo(val) < 0) {
-      prev = curr;
-      curr = curr.GetNext().Get();
-    }
+    // trova il predecessore del primo elemento >= val
+    LLNode<Data> pred = PredFind(val);
+    LLNode<Data> curr = (pred == null) ? headref.Get() : pred.GetNext().Get();
+    if (curr == null || curr.Get().compareTo(val) != 0) return;
+    long removed = 0;
     while (curr != null && curr.Get().compareTo(val) == 0) {
-      prev.SetNext(curr.GetNext().Get());
-      size.Decrement();
-      if (curr == tailref.Get()) {
-        tailref.Set(prev == dummy ? null : prev);
-      }
       curr = curr.GetNext().Get();
+      removed++;
     }
-    headref.Set(dummy.GetNext().Get());
-    if (size.ToLong() == 0) {
-      tailref.Set(null);
+    if (pred == null) {
+      headref.Set(curr);
+    } else {
+      pred.SetNext(curr);
     }
-    
+    if (curr == null) {
+      tailref.Set(pred == null ? null : pred);
+    }
+    for (long i = 0; i < removed; i++) size.Decrement();
   }
   
     @Override

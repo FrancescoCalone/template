@@ -29,7 +29,6 @@ public interface TraversableContainer<Data> extends MembershipContainer<Data> { 
        return acc.Get();
       }
 
-
   /* ************************************************************************ */
   /* Override specific member functions from Container                        */
   /* ************************************************************************ */

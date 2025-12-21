@@ -100,6 +100,7 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
         if (IsValid() && index > 0) {
           index--;
         }
+        
       }
 
       @Override
@@ -111,7 +112,7 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
       @Override
       public Data DataNPrev() {
         if (!IsValid()) throw new IllegalStateException("Iterator terminated");
-        Data d = GetAt(apsd.classes.utilities.Natural.Of(index));
+        Data d = GetAt(Natural.Of(index));
         index--;
         return d;
       }
@@ -145,19 +146,19 @@ abstract public class VectorBase<Data> implements Vector<Data> { // Must impleme
       @Override
       public Data GetCurrent() {
         if (!IsValid()) throw new IllegalStateException("Iterator terminated");
-        return GetAt(apsd.classes.utilities.Natural.Of(index));
+        return GetAt(Natural.Of(index));
       }
 
       @Override
       public void SetCurrent(Data data) {
         if (!IsValid()) throw new IllegalStateException("Iterator terminated");
-        SetAt(data, apsd.classes.utilities.Natural.Of(index));
+        SetAt(data, Natural.Of(index));
       }
 
       @Override
       public Data DataNNext() {
         if (!IsValid()) throw new IllegalStateException("Iterator terminated");
-        Data d = GetAt(apsd.classes.utilities.Natural.Of(index));
+        Data d = GetAt(Natural.Of(index));
         index++;
         return d;
       }

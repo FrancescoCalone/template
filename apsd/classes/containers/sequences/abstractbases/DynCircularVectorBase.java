@@ -90,7 +90,6 @@ abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Dat
   ArrayAlloc(newsize);
   start = 0L;
   if (oldArr == null) {
-    // nothing to copy
     size = 0L;
     return;
   }
@@ -126,6 +125,9 @@ abstract public class DynCircularVectorBase<Data> extends CircularVectorBase<Dat
         long newsize = size - n;
         if (newsize < 0) throw new IllegalArgumentException("Size negative");
         size = newsize;
+      if (Capacity().ToLong() > size * 4) {
+        Shrink();
+      }
     }
 
   /* ************************************************************************ */

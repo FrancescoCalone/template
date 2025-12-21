@@ -35,7 +35,7 @@ public interface ResizableContainer extends ReallocableContainer{
   @Override
   default void Grow(Natural NewSize) {
     if(Capacity().ToLong()>=Long.MAX_VALUE) 
-        throw new ArithmeticException();
+        throw new OutOfMemoryError("Cannot grow container beyond Long.MAX_VALUE capacity.");
     else if(Capacity().ToLong()<Long.MAX_VALUE && (Size().ToLong())+NewSize.ToLong() >= Capacity().ToLong()) 
         ReallocableContainer.super.Grow(NewSize);
   }
